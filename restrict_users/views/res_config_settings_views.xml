@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="view_sale_configuration_form" model="ir.ui.view">
+        <field name="name">sale.config.view.form.inherit</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="sale.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//block[@id='pricing_setting_container']" position="inside">
+                <group>
+                    <setting id="set_sale_oder_limit" help="Set limit for sale order" >
+                            <field name="restrict_user" string="Order Limit"/>
+                            <field name="amount_limit" invisible="restrict_user == False"/>
+                    </setting>
+
+
+                </group>
+
+            </xpath>
+        </field>
+    </record>
+</odoo>
