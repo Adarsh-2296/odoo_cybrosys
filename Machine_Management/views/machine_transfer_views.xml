@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="action_machine_transfer" model="ir.actions.act_window">
+        <field name="name">Transfers</field>
+        <field name="res_model">machine.transfer</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create your first Machine Transfer</p>
+        </field>
+    </record>
+
+    <record id="machine_transfer_form_view" model="ir.ui.view">
+        <field name="name">machine.transfer.form</field>
+        <field name="model">machine.transfer</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <button string="Transfer" type="object" name="transfer_machine_button" invisible="status == 'done'"/>
+                    <field name="status" widget="statusbar"/>
+                </header>
+                <sheet>
+                     <widget name="web_ribbon" title="Done" bg_color="bg-success" invisible="status == 'draft'"/>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="sequence_no_transfer" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="machine_id" domain="[('id', 'in', alternate_ids)]"/>
+                            <field name="alternate_ids" invisible="1"/>
+                            <field name="serial_no"/>
+                        </group>
+                        <group>
+                            <field name="transfer_date"/>
+                            <field name="transfer_type"/>
+                            <field name="partner_id" invisible="transfer_type == 'remove'"/>
+                        </group>
+                    </group>
+                    <notebook>
+                        <page string="Internal Notes">
+                            <field name="internal_notes"/>
+                        </page>
+                    </notebook>
+                </sheet>
+                <chatter/>
+            </form>
+        </field>
+    </record>
+
+</odoo>
