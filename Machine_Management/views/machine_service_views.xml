@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+
+<!--    Window view for Machine Service Menu-->
+    <record id="action_machine_service" model="ir.actions.act_window">
+        <field name="name">Machine Service</field>
+        <field name="res_model">machine.service</field>
+        <field name="view_mode">list,form</field>
+        <field name="help" type="html">
+            <p class="o_view_nocontent_smiling_face">Create your first Machine Service</p>
+        </field>
+    </record>
+
+    <record id="action_machine_service_form_view" model="ir.ui.view">
+        <field name="name">machine.service.form</field>
+        <field name="model">machine.service</field>
+        <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button type="object"  string="Start" name="action_start_case" invisible="state != 'open' "/>
+                        <button type="object"  string="Close" name="action_close_case" invisible="state !='started'"/>
+                        <button type="object"  string="Cancel" name="action_cancel_case" invisible="state =='invoiced' or state =='cancel' "/>
+                        <button type="object"  string="Create Invoice" name="action_create_invoice_line" invisible="state != 'done' " />
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                          <!--                    Smart Button view-->
+                 <div name="button_box"  class="oe_button_box">
+                    <button
+                         type="object"
+                         icon="fa-pencil-square-o"
+                         name="service_invoice_smart_button">
+                         <field name="invoice_count"
+                                   string="Invoices"
+                                   widget="statinfo"/>
+                    </button>
+                 </div>
+                        <widget name="web_ribbon" title="Done" bg_color="bg-success" invisible="state != 'done'"/>
+                        <widget name="web_ribbon" title="Cancelled" bg_color="bg-danger" invisible="state != 'cancel'"/>
+                        <widget name="web_ribbon" title="Invoiced" bg_color="bg-info" invisible="state != 'invoiced'"/>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="sequence_no_service"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <group>
+                                <field name="machine_id"/>
+                                <field name="partner_id" string="Customer"/>
+                                <field name="company_id"/>
+                            </group>
+                            <group>
+                                <field name="date"/>
+                                <field name="tech_person_ids" widget="many2many_tags"/>
+
+                            </group>
+                        </group>
+                        <notebook>
+                            <page string="Description">
+                                <field name="description"/>
+                            </page>
+                            <page string="Internal Note">
+                                <field name="internal_note"/>
+                            </page>
+                            <page string="Parts">
+                            <group>
+                                <field
+                                name="parts_line_ids"
+                                string=""
+                                widget="sol_o2m"
+                                mode="list"
+                                options="{'hide_composition': True, 'hide_prices': True, 'subsections': True}"
+                                >
+                                        <form>
+                                            <group>
+                                                <field name="product_id" widget="many2one_barcode"/>
+                                                <field name="quantity"/>
+                                                <field name="product_uom_id"/>
+                                            </group>
+                                        </form>
+                                    </field>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <chatter/>
+                </form>
+        </field>
+    </record>
+
+</odoo>

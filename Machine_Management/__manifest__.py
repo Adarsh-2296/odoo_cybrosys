@@ -1,0 +1,26 @@
+{
+    'name': 'Machine Management',
+    'version': "19.0.1.0",
+    'summary': """Machine Management""",
+    'description': """This module is used to Manage machines""",
+    'category': 'Machines',
+    'author': "Adarsh",
+    'website': "www.cybrosys.com",
+    'license': "LGPL-3",
+    'sequence':-2,
+    'installable': True,
+    'application': True,
+    'auto_install': True,
+    'depends': ['mail','product','account','sale_management'],
+    'data': [
+        'security/ir.model.access.csv',
+        'data/machine_management_sequence.xml',
+        'data/machine_types_data.xml',
+        'views/res_partner_views.xml',
+        'views/machine_management_order_line_views.xml',
+        'views/machine_service_views.xml',
+        'views/machine_transfer_views.xml',
+        'views/machine_management_views.xml',
+        'views/machine_management_menus.xml',
+    ]
+}

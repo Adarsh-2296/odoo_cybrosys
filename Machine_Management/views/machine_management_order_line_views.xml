@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <record id="action_machine_management_order_line_tree_view" model="ir.ui.view">
+        <field name="name">machine.management.order.line.list</field>
+        <field name="model">machine.management.order.line</field>
+        <field name="arch" type="xml">
+            <list editable="bottom">
+                <field name="product_id" string="Product"/>
+                <field name="quantity" string="Quantity" />
+                <field name="product_uom_id" string="Unit" />
+            </list>
+        </field>
+    </record>
+</odoo>
