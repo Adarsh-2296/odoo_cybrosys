@@ -9,6 +9,22 @@
         </field>
     </record>
 
+    <record id="action_machine_transfer_search_view" model="ir.ui.view">
+        <field name="name">machine.transfer.search</field>
+        <field name="model">machine.transfer</field>
+        <field name="arch" type="xml">
+                <search>
+                    <filter string="Transfer Type" name="transfer_type" context="{'group_by':'transfer_type'}"/>
+                    <filter string="Status" name="status" context="{'group_by':'status'}"/>
+                    <filter string="Machine" name="machine_id" context="{'group_by':'machine_id'}"/>
+                    <filter string="Customer" name="partner_id" context="{'group_by':'partner_id'}"/>
+                    <filter string="Archived" name="active" domain="[('active', '=', False)]"/>
+                    <filter string="Unarchived" name="active" domain="[('active', '=', True)]"/>
+                    <filter string="Date" name="transfer_date" context="{'group_by':'transfer_date'}"/>
+                </search>
+        </field>
+    </record>
+
     <record id="machine_transfer_form_view" model="ir.ui.view">
         <field name="name">machine.transfer.form</field>
         <field name="model">machine.transfer</field>

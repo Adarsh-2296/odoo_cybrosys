@@ -1,10 +1,6 @@
 # -*- coding: utf-8 -*-
-from email.policy import default
-
 from odoo import fields,models,api, _
-from odoo.addons.test_convert.tests.test_env import record
 from odoo.exceptions import ValidationError,UserError
-from dateutil.relativedelta import relativedelta
 from datetime import date
 
 class MachineManagement(models.Model):
@@ -47,6 +43,34 @@ class MachineManagement(models.Model):
     tag_ids = fields.Many2many('machine.tag',tracking=True)
     total_units = fields.Float(compute='_compute_total_units')
     product_filtered_ids = fields.Many2many('product.product',tracking=True)
+    service_frequency = fields.Selection([('weeks', 'Weekly'), ('months', 'Monthly'), ('years', 'Yearly')],
+                                         string='Service Frequency', tracking=True)
+    last_service_date = fields.Date(string='Last Service Date', tracking=True, compute='_compute_last_service_date')
+
+    @api.model
+    def recurring_service_creation(self):
+        """To create recurring services for machines"""
+        machine=self.search([('state','=','in_service')])
+
+        for rec in machine:
+            if ('open' in   rec.mapped('service_ids.state')) or ('started' in rec.mapped('service_ids.state') ):
+                print(rec)
+            else:
+                self.env['machine.service'].create({
+                    'machine_id': int(rec),
+                    'partner_id': rec.partner_id.id,
+                    'date': fields.Date.today(),
+        })
+
+    @api.depends('service_ids.date')
+    def _compute_last_service_date(self):
+        """To compute the last service date for a machine"""
+        for record in self:
+            if record.service_ids:
+                last_service_date=sorted(record.mapped('service_ids.date'))
+                record.last_service_date = last_service_date[-1]
+            else:
+                record.last_service_date = False
 
     @api.depends('date_of_purchase')
     def _compute_machine_age(self):
@@ -142,6 +166,34 @@ class MachineManagement(models.Model):
             'domain': [('machine_id', '=', self.id)],
             'context': "{'create': False}"
         }
+
+    def action_archive(self):
+        """Archive the services and transfers if machine is Archived"""
+        open_services=self.service_ids.search([('state', '=', 'started')])
+        if self.state == 'in_service':
+            raise UserError(_('Can only archive machines in active state'))
+        elif open_services:
+            open_services.write({'state': 'cancel'})
+            return {
+                'type': 'ir.actions.client',
+                'tag': 'display_notification',
+                'params': {
+                    'message': ('The services in open state will be cancelled.'),
+                    'type': 'warning',
+                    'next':self.action_archive()
+                }
+            }
+        self.service_ids.action_archive()
+        self.transfer_ids.action_archive()
+        return super().action_archive()
+
+    def action_unarchive(self):
+        """Unarchive the services and transfers if machine is unarchived"""
+        inactive_ser = self.service_ids.search([('active', '=', False),('machine_id.id', '=', self.id)])
+        inactive_transfer = self.transfer_ids.search([('active', '=', False),('machine_id.id', '=', self.id)])
+        inactive_ser.action_unarchive()
+        inactive_transfer.action_unarchive()
+        return super().action_unarchive()
 
     @api.model_create_multi
     def create(self, vals_list):

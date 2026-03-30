@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+   <data>
+       <record id="email_template_service" model="mail.template">
+           <field name="name">Service Email Template</field>
+           <field name="model_id" ref="Machine_Management.model_machine_service"/>
+           <field name="subject">Machine service {{ object.machine_id.name }}</field>
+           <field name="email_to">{{ object.partner_id.email }}</field>
+           <field name="body_html" type="html">
+               <div>
+                   <p>
+                       Hello <t t-out="object.partner_id.name"/>,
+                       <br/>
+                       <br/>
+                       This email is to inform you that the service of your machine <t t-out="object.machine_id.name"/> <br/>
+                       with serial number: <t t-out="object.machine_id.serial_no"/> is done,<br/>
+                       On today: <t t-out="object.date"/>
+                   </p>
+               </div>
+               <div style="margin: 16px 0px 16px 0px; text-align: center;">
+                   <a t-attf-href="http://localhost:8019/odoo/machine.service/{{ object.id }}"
+                      t-attf-style="display: inline-block; padding: 10px; text-decoration: none; font-size: 12px; background-color:'#875A7B'; color:'#FFFFFF'; border-radius: 5px;">
+                       <strong>View Service</strong>
+                   </a>
+               </div>
+           </field>
+
+       </record>
+   </data>
+</odoo>
