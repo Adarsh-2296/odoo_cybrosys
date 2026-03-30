@@ -11,6 +11,21 @@
         </field>
     </record>
 
+    <record id="action_machine_service_search_view" model="ir.ui.view">
+        <field name="name">machine.service.search</field>
+        <field name="model">machine.service</field>
+        <field name="arch" type="xml">
+                <search>
+                    <filter string="Status" name="state" context="{'group_by':'state'}"/>
+                    <filter string="Machine" name="machine_id" context="{'group_by':'machine_id'}"/>
+                    <filter string="Technician" name="tech_person_ids" context="{'group_by':'tech_person_ids'}"/>
+                    <filter string="Archived" name="active" domain="[('active', '=', False)]"/>
+                    <filter string="Unarchived" name="active" domain="[('active', '=', True)]"/>
+                    <filter string="Date" name="date" context="{'group_by':'date'}"/>
+                </search>
+        </field>
+    </record>
+
     <record id="action_machine_service_form_view" model="ir.ui.view">
         <field name="name">machine.service.form</field>
         <field name="model">machine.service</field>
@@ -52,7 +67,6 @@
                             <group>
                                 <field name="date"/>
                                 <field name="tech_person_ids" widget="many2many_tags"/>
-
                             </group>
                         </group>
                         <notebook>

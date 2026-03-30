@@ -1,8 +1,5 @@
 # -*- coding: utf-8 -*-
 from odoo import fields,models,api,_
-from odoo.addons.test_convert.tests.test_env import record
-from odoo.orm.types import ValuesType
-
 
 class MachineTransfer(models.Model):
     _name = 'machine.transfer'
@@ -19,6 +16,7 @@ class MachineTransfer(models.Model):
     partner_id = fields.Many2one('res.partner',string="Customer",tracking=True)
     internal_notes = fields.Text(string="Internal Notes",tracking=True)
     status = fields.Selection([('draft','Draft'),('done','Done')],default='draft',tracking=True)
+    active = fields.Boolean(string='Active',tracking=True,default=True)
 
     @api.model_create_multi
     def create(self, vals_list):

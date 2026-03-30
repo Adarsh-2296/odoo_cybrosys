@@ -85,6 +85,7 @@
                     <group>
                         <group>
                             <field name="name"/>
+                            <field name="serial_no"/>
                             <field name="partner_id" />
                             <field name="currency_id" invisible="1"/>
                             <field name="purchase_value" />
@@ -96,10 +97,11 @@
                             <field name="date_of_purchase"/>
                             <field name="warranty" />
                             <field name="active" />
-                            <field name="serial_no"/>
                             <field name="machine_type_id"/>
                             <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
                             <field name="machine_age"/>
+                            <field name="service_frequency"/>
+                            <field name="last_service_date"/>
                         </group>
                     </group>
 

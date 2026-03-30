@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-from xxlimited_35 import Null
 from odoo import models, fields, api, _, Command
 
 class MachineService(models.Model):
@@ -10,7 +9,7 @@ class MachineService(models.Model):
 
     machine_id = fields.Many2one('machine.management',string='Machine',required=True,tracking=True)
     sequence_no_service = fields.Char(string='Sequence',readonly=True)
-    partner_id = fields.Many2one('res.partner',string='Customer',required=True,tracking=True,related="machine_id.partner_id")
+    partner_id = fields.Many2one('res.partner',string='Customer',required=True,tracking=True)
     date = fields.Date(string='Date',required=True,tracking=True,default=fields.Date.today())
     description = fields.Text(string='Description',tracking=True)
     internal_note = fields.Text(string='Internal Note',tracking=True)
@@ -22,6 +21,7 @@ class MachineService(models.Model):
         string="Order Lines",domain="[('order_id','=',machine_id)]",
         copy=True)
     invoice_count = fields.Integer(string='Invoice Count',tracking=True,compute='_compute_invoice_count')
+    active = fields.Boolean(string='Active',tracking=True,default=True)
 
     @api.depends()
     def _compute_invoice_count(self):
@@ -50,14 +50,16 @@ class MachineService(models.Model):
 
     def action_start_case(self):
         """To Stop Case"""
-        print(self.parts_line_ids.order_id.order_line_ids)
-        print(self.machine_id.order_line_ids)
-        print(self)
         self.write({'state': 'started'})
 
     def action_close_case(self):
         """To close the case"""
         self.write({'state': 'done'})
+        template = self.env.ref('Machine_Management.email_template_service')
+        email_values = {'email_from': 'odoouser38@gmail.com'}
+        print(email_values)
+        template.send_mail(self.id, force_send=True, email_values=email_values)
+
     def action_cancel_case(self):
         """To cancel the case"""
         self.write({'state': 'cancel'})

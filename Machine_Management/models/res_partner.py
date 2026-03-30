@@ -1,9 +1,5 @@
 # -*- coding: utf-8 -*-
-import typing
-
 from odoo import fields,models,api
-from odoo.orm.types import ValuesType
-
 
 class ResPartner(models.Model):
     _inherit = 'res.partner'
@@ -31,7 +27,7 @@ class ResPartner(models.Model):
     def action_archive(self):
         """Archive the machines if customer is Archived"""
         self.machine_ids.action_archive()
-        super().action_archive()
+        return super().action_archive()
 
     def action_unarchive(self):
         """Unarchive the machines if customer is unarchived"""

@@ -16,6 +16,8 @@
         'security/ir.model.access.csv',
         'data/machine_management_sequence.xml',
         'data/machine_types_data.xml',
+        'data/email_template_service.xml',
+        'data/recurring_service_creation.xml',
         'views/res_partner_views.xml',
         'views/machine_management_order_line_views.xml',
         'views/machine_service_views.xml',
