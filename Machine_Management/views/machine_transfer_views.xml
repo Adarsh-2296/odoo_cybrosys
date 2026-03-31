@@ -46,6 +46,7 @@
                             <field name="machine_id" domain="[('id', 'in', alternate_ids)]"/>
                             <field name="alternate_ids" invisible="1"/>
                             <field name="serial_no"/>
+                            <field name="company_id"/>
                         </group>
                         <group>
                             <field name="transfer_date"/>

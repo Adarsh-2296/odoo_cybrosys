@@ -33,8 +33,8 @@
                 <form>
                     <header>
                         <button type="object"  string="Start" name="action_start_case" invisible="state != 'open' "/>
-                        <button type="object"  string="Close" name="action_close_case" invisible="state !='started'"/>
-                        <button type="object"  string="Cancel" name="action_cancel_case" invisible="state =='invoiced' or state =='cancel' "/>
+                        <button type="object"  string="Close" name="action_close_case" invisible="state !='started'" groups="machine_management.group_machine_management_techperson,machine_management.group_machine_management_manager"/>
+                        <button type="object"  string="Cancel" name="action_cancel_case" invisible="state =='invoiced' or state =='cancel'" />
                         <button type="object"  string="Create Invoice" name="action_create_invoice_line" invisible="state != 'done' " />
                         <field name="state" widget="statusbar"/>
                     </header>

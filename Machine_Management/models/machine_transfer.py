@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from odoo import fields,models,api,_
+from odoo.exceptions import UserError
 
 class MachineTransfer(models.Model):
     _name = 'machine.transfer'
@@ -17,7 +18,7 @@ class MachineTransfer(models.Model):
     internal_notes = fields.Text(string="Internal Notes",tracking=True)
     status = fields.Selection([('draft','Draft'),('done','Done')],default='draft',tracking=True)
     active = fields.Boolean(string='Active',tracking=True,default=True)
-
+    company_id = fields.Many2one('res.company', string='Company', tracking=True, default=lambda self: self.env.company)
     @api.model_create_multi
     def create(self, vals_list):
         print('vals_list')
@@ -43,3 +44,9 @@ class MachineTransfer(models.Model):
         """Button to confirm the transfer"""
         self.machine_id.write({'partner_id': self.partner_id,'state': 'in_service'})
         self.write({'status': 'done'})
+
+    def action_archive(self):
+        """Only manager can archive a transfer"""
+        if not self.env.user.has_group('machine_management.group_machine_management_manager'):
+                raise UserError("You don't have the access to Archive a Transfer, Contact Your Administrator")
+        return super().action_archive()

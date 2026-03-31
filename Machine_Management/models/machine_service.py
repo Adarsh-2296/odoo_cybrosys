@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from odoo import models, fields, api, _, Command
+from odoo.exceptions import UserError
 
 class MachineService(models.Model):
     _name = 'machine.service'
@@ -53,12 +54,13 @@ class MachineService(models.Model):
         self.write({'state': 'started'})
 
     def action_close_case(self):
-        """To close the case"""
-        self.write({'state': 'done'})
-        template = self.env.ref('Machine_Management.email_template_service')
-        email_values = {'email_from': 'odoouser38@gmail.com'}
-        print(email_values)
-        template.send_mail(self.id, force_send=True, email_values=email_values)
+            """To close the case,send email on closing the case and only managers or assigned persons can close the case"""
+            self.write({'state': 'done'})
+            template = self.env.ref('machine_management.email_template_service')
+            email_values = {'email_from': 'odoouser38@gmail.com'}
+            template.send_mail(self.id, force_send=True, email_values=email_values)
+
+
 
     def action_cancel_case(self):
         """To cancel the case"""
@@ -103,4 +105,9 @@ class MachineService(models.Model):
                 'invoice_line_ids': line
             })
 
+    def action_archive(self):
+        """Only manager can archive a service"""
+        if not self.env.user.has_group('machine_management.group_machine_management_manager'):
+                raise UserError("You don't have the access to Archive a Service, Contact Your Administrator")
+        return super().action_archive()
 
