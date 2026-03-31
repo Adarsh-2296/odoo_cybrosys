@@ -13,6 +13,8 @@
     'auto_install': True,
     'depends': ['mail','product','account','sale_management'],
     'data': [
+        'security/ir.rules.xml',
+        'security/res_groups.xml',
         'security/ir.model.access.csv',
         'data/machine_management_sequence.xml',
         'data/machine_types_data.xml',

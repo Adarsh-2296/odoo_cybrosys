@@ -168,9 +168,11 @@ class MachineManagement(models.Model):
         }
 
     def action_archive(self):
-        """Archive the services and transfers if machine is Archived"""
+        """Archive the services and transfers if machine is Archived and only manager can archive a machine"""
         open_services=self.service_ids.search([('state', '=', 'started')])
-        if self.state == 'in_service':
+        if not self.env.user.has_group('machine_management.group_machine_management_manager'):
+                raise UserError("You don't have the access to Archive a Machine, Contact Your Administrator")
+        elif self.state == 'in_service':
             raise UserError(_('Can only archive machines in active state'))
         elif open_services:
             open_services.write({'state': 'cancel'})
@@ -202,7 +204,6 @@ class MachineManagement(models.Model):
             if vals.get('sequence_number', _('New')) == _('New'):
                 vals['sequence_number'] = (self.env['ir.sequence'].next_by_code('machine.management'))
         return super().create(vals_list)
-
 
 
 class MachineType(models.Model):
