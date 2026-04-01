@@ -51,10 +51,9 @@ class MachineManagement(models.Model):
     def recurring_service_creation(self):
         """To create recurring services for machines"""
         machine=self.search([('state','=','in_service')])
-
         for rec in machine:
             if ('open' in   rec.mapped('service_ids.state')) or ('started' in rec.mapped('service_ids.state') ):
-                print(rec)
+                pass
             else:
                 self.env['machine.service'].create({
                     'machine_id': int(rec),
