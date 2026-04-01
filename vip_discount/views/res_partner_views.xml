@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="restricted_vendor_res_partner_inherited_view_form" model="ir.ui.view">
+        <field name="name">res.partner.inherited.view.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='category_id']" position="after">
+                <div invisible="is_vip_discount== False">
+                    <group>
+                        <field name="is_vip"/>
+                        <field name="vip_discount" invisible="is_vip == False" style=" min-width: 3rem"/>
+                    </group>
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>

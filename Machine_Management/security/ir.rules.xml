@@ -10,12 +10,13 @@
     <record id="machine_service_comp_rule" model="ir.rule">
         <field name="name">Machine Service multi-company</field>
         <field name="model_id" ref="model_machine_service"/>
+
         <field name="domain_force">['|', ('company_id', 'in', company_ids) , ('company_id', '=', False)]</field>
     </record>
     <record id="machine_service_tech_person_comp_rule" model="ir.rule">
         <field name="name">Machine Service Tech Person multi-company</field>
         <field name="model_id" ref="model_machine_service"/>
-        <field name="domain_force">[('tech_person_ids', 'in', user.id )]</field>
+        <field name="domain_force">[('tech_person_ids', 'in', user.id ), ('tech_person_ids', 'in', False )]</field>
         <field name="groups" eval="[(4, ref('machine_management.group_machine_management_techperson'))]"/>
     </record>
     <record id="machine_transfer_comp_rule" model="ir.rule">
