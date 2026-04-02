@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="product_product_inherited_view_form_vip_discount" model="ir.ui.view">
+        <field name="name">product.product.inherited.view.form.vip.discount</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='general_information']" position="inside">
+                    <group invisible="is_vip_discount == False">
+                         <field name="vip_discount" style=" min-width: 3rem"/>
+                    </group>
+
+            </xpath>
+        </field>
+    </record>
+</odoo>

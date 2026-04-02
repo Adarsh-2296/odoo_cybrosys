@@ -10,6 +10,7 @@
                     <group>
                         <field name="is_vip"/>
                         <field name="vip_discount" invisible="is_vip == False" style=" min-width: 3rem"/>
+                        <field name="product_ids" invisible="is_vip == False" style=" min-width: 15rem" widget="many2many_tags"/>
                     </group>
                 </div>
             </xpath>
