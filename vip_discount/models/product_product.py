@@ -1,13 +1,11 @@
 # -*- coding: utf-8 -*-
 from odoo import fields,models
 
-class ResPartner(models.Model):
-    _inherit = 'res.partner'
+class ProductProduct(models.Model):
+    _inherit = 'product.product'
 
-    is_vip = fields.Boolean(string='Vip')
     vip_discount = fields.Float(string='Vip Discount')
-    product_ids = fields.Many2many('product.product',string='Product')
-    is_vip_discount = fields.Boolean(string='Vip Discount',compute='_compute_is_vip_discount')
+    is_vip_discount = fields.Boolean(string='Vip Discount', compute='_compute_is_vip_discount')
 
     def _compute_is_vip_discount(self):
         """To get the value of the field(is_vip_discount) in the settings of sales """

@@ -1,1 +1,1 @@
-from . import res_partner,sale_order,res_config_settings
+from . import res_partner,sale_order,res_config_settings,product_product
