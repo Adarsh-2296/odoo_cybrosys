@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="hr_employee_inherited_view_form_employee_transfer" model="ir.ui.view">
+        <field name="name">hr.employee.inherited.view.form.employee.transfer</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="hr.view_employee_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                    <button type="object" string="Transfer" name="redirect_to_company_transfer"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

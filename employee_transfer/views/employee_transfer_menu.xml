@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!--    Root menu-->
+   <menuitem id="employee_transfer_root" name="Employee Transfer"/>
+         <!--    Main Menu -->
+        <menuitem id="employee_transfer_menu" name="Employee Transfer" parent="employee_transfer_root"/>
+                <!--      Sub Menu With Action-->
+            <menuitem id="employee_transfer_submenu" name="Transfer" action="action_employee_transfer" parent="employee_transfer_menu"/>
+</odoo>
