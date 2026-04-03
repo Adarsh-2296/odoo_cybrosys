@@ -1,1 +1,1 @@
-from . import res_users,project_task
+from . import res_users,project_task,res_config_settings
