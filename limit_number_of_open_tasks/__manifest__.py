@@ -13,6 +13,7 @@
     'auto_install': True,
     'depends': ['project'],
     'data':[
+        'views/res_config_settings_views.xml',
         'views/res_users_views.xml'
     ]
 }
