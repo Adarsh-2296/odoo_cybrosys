@@ -11,15 +11,33 @@
         </field>
     </record>
 
+    <record id="action_employee_transfer_search_view" model="ir.ui.view">
+        <field name="name">employee.transfer.search</field>
+        <field name="model">employee.transfer</field>
+        <field name="arch" type="xml">
+            <search>
+                <filter name="company_from_id" string="Company From" context="{'group_by':'company_from_id'}"/>
+                <filter name="company_to_id" string="Company To" context="{'group_by':'company_to_id'}"/>
+                <filter name="employee_id" string="Employee" context="{'group_by':'employee_id'}"/>
+                <filter name="state" string="State" context="{'group_by':'state'}"/>
+                <filter name="user_id" string="Approver" context="{'group_by':'user_id'}"/>
+                <filter string="Archived" name="active" domain="[('active', '=', False)]"/>
+                <filter string="Unarchived" name="active" domain="[('active', '=', True)]"/>
+                <filter string="Date Submitted" name="date" context="{'group_by':'date'}"/>
+                <filter string="Date Approved" name="approved_date" context="{'group_by':'approved_date'}"/>
+            </search>
+        </field>
+    </record>
+
     <record id="action_employee_transfer_form_view" model="ir.ui.view">
         <field name="name">employee.transfer.form</field>
         <field name="model">employee.transfer</field>
         <field name="arch" type="xml">
-            <form>
+            <form >
                 <header>
                     <button type="object" name="action_submit" string="Submit" invisible=" state != 'draft'" />
-                    <button type="object" name="action_approve" string="Approve" groups="base.group_system" invisible=" state != 'to_approve' "/>
-                    <button type="object" name="action_reject" string="Reject" groups="base.group_system" invisible=" state != 'to_approve' "/>
+                    <button type="object" name="action_approve" string="Approve"  invisible=" state != 'to_approve' "/>
+                    <button type="object" name="action_reject" string="Reject" invisible=" state != 'to_approve' "/>
                     <field name="state" widget="statusbar" />
                 </header>
                 <sheet>
@@ -32,9 +50,9 @@
                     </div>
                     <group>
                         <group>
-                            <field name="employee_id"/>
+                            <field name="employee_id" readonly="state in ['approved', 'rejected']"/>
                             <field name="company_from_id"/>
-                            <field name="company_to_id"/>
+                            <field name="company_to_id" readonly="state in ['approved', 'rejected']"/>
                         </group>
                         <group>
                             <field name="date"/>
@@ -58,6 +76,7 @@
                 <field name="company_from_id"/>
                 <field name="company_to_id"/>
                 <field name="employee_id"/>
+                <field name="user_id"/>
                 <field name="state"/>
             </list>
         </field>

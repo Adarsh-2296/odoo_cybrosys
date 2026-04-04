@@ -13,7 +13,10 @@
     'auto_install': True,
     'depends': ['hr','mail'],
     'data': [
+        'security/res_groups.xml',
+        'security/ir_rules.xml',
         'security/ir.model.access.csv',
+        'data/email_template_employee_transfer.xml',
         'data/employee_transfer_sequence.xml',
         'views/hr_employee_views.xml',
         'views/employee_transfer_views.xml',
