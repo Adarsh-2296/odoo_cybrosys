@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+   <data>
+       <record id="email_template_employee_transfer" model="mail.template">
+           <field name="name">Employee Transfer Email Template</field>
+           <field name="model_id" ref="employee_transfer.model_employee_transfer"/>
+           <field name="subject">Employee Transfer {{ object.employee_id.name }}</field>
+           <field name="email_to">{{ object.user_id.email }}</field>
+           <field name="body_html" type="html">
+               <div>
+                   <p>
+                       Hello <t t-out="object.user_id.name"/>,
+                       <br/>
+                       <br/>
+                       This email is to request you that I would like to transfer from <br/> <t t-out="object.company_from_id.name"/>
+                       to <t t-out="object.company_to_id.name"/> <br/><br/>
+                       Faithfully,<br/>
+                                <t t-out="object.employee_id.name"/>
+                   </p>
+               </div>
+               <div style="margin: 16px 0px 16px 0px; text-align: center;">
+                   <a t-attf-href="http://localhost:8019/odoo/employee.transfer/{{ object.id }}"
+                      t-attf-style="display: inline-block; padding: 10px; text-decoration: none; font-size: 12px; background-color:'#875A7B'; color:'#FFFFFF'; border-radius: 5px;">
+                       <strong>View Transfer Request</strong>
+                   </a>
+               </div>
+           </field>
+
+       </record>
+   </data>
+</odoo>

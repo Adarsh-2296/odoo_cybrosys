@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo >
+
+    <!-- Multi - Company Rules -->
+    <record id="employee_transfer_comp_rule" model="ir.rule">
+        <field name="name">Employee Transfer multi-company</field>
+        <field name="model_id" ref="model_employee_transfer"/>
+        <field name="domain_force">[('company_from_id', 'in', company_ids)]</field>
+    </record>
+
+    <record id="employee_transfer_supervisor_comp_rule" model="ir.rule">
+        <field name="name">Employee Transfer Supervisor multi-company</field>
+        <field name="model_id" ref="model_employee_transfer"/>
+        <field name="domain_force">[('user_id', '=', user.id )]</field>
+        <field name="groups" eval="[(4, ref('employee_transfer.group_employee_transfer_supervisor'))]"/>
+    </record>
+</odoo>
