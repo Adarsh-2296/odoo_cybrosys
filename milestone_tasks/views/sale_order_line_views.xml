@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="sale_order_inherited_view_form_milestone_tasks" model="ir.ui.view">
+        <field name="name">sale.order.inherited.view.form.milestone.tasks</field>
+        <field name="model">sale.order</field>
+        <field name="inherit_id" ref="sale.view_order_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='order_line']/list/field[@name='product_uom_qty']" position="before">
+                    <field name="milestone" />
+            </xpath>
+            <xpath expr="//header" position="inside">
+                    <button string="Create Project" type="object"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
