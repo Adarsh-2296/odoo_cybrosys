@@ -11,8 +11,10 @@
     'installable': True,
     'application': True,
     'auto_install': True,
-    'depends': ['sale_management'],
+    'depends': ['sale_management','project'],
     'data': [
+        'views/project_task.xml',
+        'views/project_project.xml',
         'views/sale_order_line_views.xml'
     ]
 }
