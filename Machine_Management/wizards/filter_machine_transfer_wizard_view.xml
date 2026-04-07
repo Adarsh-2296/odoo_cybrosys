@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+    <record id="action_report_machine_transfer" model="ir.actions.act_window">
+        <field name="name">Report</field>
+        <field name="res_model">filter.machine.transfer.wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+    </record>
+
+   <record id="filter_machine_transfer_view_form" model="ir.ui.view">
+       <field name="name">filter.machine.transfer.view.form</field>
+       <field name="model">filter.machine.transfer.wizard</field>
+       <field name="priority" eval="8"/>
+       <field name="arch" type="xml">
+           <form string="Machine Transfer">
+               <group>
+                   <field name="machine_id" widget="many2many_tags"/>
+                   <field name="partner_id" widget="many2many_tags"/>
+               </group>
+               <group>
+                   <field name="transfer_date"/>
+                   <field name="transfer_to_date"/>
+                   <field name="transfer_type"/>
+               </group>
+               <footer>
+<!--                   <button name="%(machine_management.machine_transfer_report)d" string="Print" type="action"/>-->
+                   <button name="action_filter_machine_transfer" string="Print" type="object"/>
+                   <button name="cancel" string="Cancel" special="cancel"/>
+               </footer>
+           </form>
+       </field>
+   </record>
+</odoo>

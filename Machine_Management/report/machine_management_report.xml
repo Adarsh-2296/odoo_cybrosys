@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+   <data>
+
+    <record id="machine_management_report" model="ir.actions.report">
+            <field name="name">Machine PDF</field>
+            <field name="model">machine.management</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">machine_management.report_machine_management_document</field>
+            <field name="domain">[]</field>
+            <field name="report_file">machine_management.report_machine_management_document</field>
+            <field name="print_report_name">(object.name)</field>
+            <field name="attachment"/>
+            <field name="binding_model_id" ref="model_machine_management"/>
+            <field name="binding_type">report</field>
+        </record>
+   </data>
+
+    <data>
+    <record id="machine_transfer_report" model="ir.actions.report">
+            <field name="name">Machine Transfer PDF</field>
+            <field name="model">machine.transfer</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">machine_management.report_machine_transfer_document</field>
+            <field name="domain">[]</field>
+            <field name="report_file">machine_management.report_machine_transfer_document</field>
+            <field name="print_report_name">(object.sequence_no_transfer)</field>
+            <field name="attachment"/>
+            <field name="binding_model_id" ref="model_machine_transfer"/>
+            <field name="binding_type">report</field>
+        </record>
+   </data>
+
+    <data>
+    <record id="machine_transfer_report_table" model="ir.actions.report">
+            <field name="name">Machine Transfer Table PDF</field>
+            <field name="model">machine.transfer</field>
+            <field name="report_type">qweb-pdf</field>
+            <field name="report_name">machine_management.report_machine_transfer_document_second</field>
+            <field name="domain">[]</field>
+            <field name="report_file">machine_management.report_machine_transfer_document_second</field>
+            <field name="print_report_name">(object.sequence_no_transfer)</field>
+            <field name="attachment"/>
+            <field name="binding_model_id" ref="model_machine_transfer"/>
+            <field name="binding_type">report</field>
+        </record>
+   </data>
+</odoo>

@@ -5,11 +5,11 @@
          <!--    Main Menu -->
         <menuitem id="machine_management_menu" name="Machines" parent="machine_management_root"/>
         <menuitem id="Config_menu_machine_management" name="Configuration" parent="machine_management_root"/>
+        <menuitem id="report_machine_transfer_menu" name="Report" parent="machine_management_root" action="action_report_machine_transfer"/>
                 <!--      Sub Menu With Action-->
             <menuitem id="machine_management_submenu" name="Machines" action="action_machine_management" parent="machine_management_menu"/>
             <menuitem id="machine_transfers_submenu" name="Transfers" action="action_machine_transfer" parent="Config_menu_machine_management"/>
             <menuitem id="machine_service_submenu" name="Services" action="action_machine_service" parent="Config_menu_machine_management"/>
             <menuitem id="machine_types_submenu" name="Machine Types" action="action_machine_type" parent="Config_menu_machine_management"/>
             <menuitem id="machine_tags_submenu" name="Machine Tags" action="action_machine_tags" parent="Config_menu_machine_management"/>
-
 </odoo>

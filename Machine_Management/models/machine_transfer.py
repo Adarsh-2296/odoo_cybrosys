@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+from dateutil.relativedelta import relativedelta
 from odoo import fields,models,api,_
 from odoo.exceptions import UserError
 
@@ -14,11 +15,13 @@ class MachineTransfer(models.Model):
     serial_no = fields.Char(string="Serial No.",readonly=True, store=True,related="machine_id.serial_no",tracking=True)
     transfer_date = fields.Date(required=True, string="Transfer Date",tracking=True,default=fields.Date.today())
     transfer_type = fields.Selection(selection=[('install','Install'),('remove','Remove')],default='install',tracking=True)
+    transfer_to_date = fields.Date(string="Transfer Till",tracking=True,default= fields.Date.today() + relativedelta(months=+1))
     partner_id = fields.Many2one('res.partner',string="Customer",tracking=True)
     internal_notes = fields.Text(string="Internal Notes",tracking=True)
     status = fields.Selection([('draft','Draft'),('done','Done')],default='draft',tracking=True)
     active = fields.Boolean(string='Active',tracking=True,default=True)
     company_id = fields.Many2one('res.company', string='Company', tracking=True, default=lambda self: self.env.company)
+
     @api.model_create_multi
     def create(self, vals_list):
         print('vals_list')
@@ -26,7 +29,6 @@ class MachineTransfer(models.Model):
         for vals in vals_list:
             if vals.get('sequence_no_transfer', _('New')) == _('New'):
                 vals['sequence_no_transfer'] = (self.env['ir.sequence'].next_by_code('machine.transfer'))
-
         return super().create(vals_list)
 
     @api.depends('transfer_type')

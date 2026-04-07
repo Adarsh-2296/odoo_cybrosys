@@ -14,7 +14,7 @@ class MachineService(models.Model):
     date = fields.Date(string='Date',required=True,tracking=True,default=fields.Date.today())
     description = fields.Text(string='Description',tracking=True)
     internal_note = fields.Text(string='Internal Note',tracking=True)
-    tech_person_ids = fields.Many2many('res.users',string='Tech Person',tracking=True,required=True)
+    tech_person_ids = fields.Many2many('res.users',string='Tech Person',tracking=True,required=True,domain="[('share','=',False),('active','=',True)]")
     state = fields.Selection([('open','Open'),('started','Started'),('done','Done'),('invoiced','Invoiced'),('cancel','Cancel')],default='open',tracking=True)
     company_id = fields.Many2one('res.company',string='Company',tracking=True,default=lambda self: self.env.company)
     parts_line_ids = fields.Many2many(
@@ -50,22 +50,19 @@ class MachineService(models.Model):
         }
 
     def action_start_case(self):
-        """To Stop Case"""
+        """To Start Case"""
         self.write({'state': 'started'})
 
     def action_close_case(self):
-            """To close the case,send email on closing the case and only managers or assigned persons can close the case"""
+            """To close the case,send email on closing the case"""
             self.write({'state': 'done'})
             template = self.env.ref('machine_management.email_template_service')
             email_values = {'email_from': 'odoouser38@gmail.com'}
             template.send_mail(self.id, force_send=True, email_values=email_values)
 
-
-
     def action_cancel_case(self):
         """To cancel the case"""
         self.write({'state': 'cancel'})
-
 
     def action_create_invoice_line(self):
         """To create invoice for Machine Service"""
@@ -96,14 +93,28 @@ class MachineService(models.Model):
                 'invoice_line_ids': line,
                 'ref': self.partner_id.id,
             })
+            return {
+                'type': 'ir.actions.act_window',
+                'res_model': 'account.move',
+                'view_mode': 'form',
+                'res_id': invoiced_in_draft[0].id,
+                'target': 'self',
+            }
         else:
-                self.env['account.move'].create({
+                invoice = self.env['account.move'].create({
                 'move_type': 'out_invoice',
                 'ref': self.partner_id.id,
                 'partner_id': self.partner_id.id,
                 'invoice_date': fields.Datetime.today(),
                 'invoice_line_ids': line
             })
+        return {
+            'type': 'ir.actions.act_window',
+            'res_model': 'account.move',
+            'view_mode': 'form',
+            'res_id': invoice.id,
+            'target': 'self',
+        }
 
     def action_archive(self):
         """Only manager can archive a service"""
