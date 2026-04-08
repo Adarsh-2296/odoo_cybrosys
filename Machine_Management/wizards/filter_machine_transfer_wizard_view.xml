@@ -14,8 +14,8 @@
        <field name="arch" type="xml">
            <form string="Machine Transfer">
                <group>
-                   <field name="machine_id" widget="many2many_tags"/>
-                   <field name="partner_id" widget="many2many_tags"/>
+                   <field name="machine_ids" widget="many2many_tags"/>
+                   <field name="partner_ids" widget="many2many_tags"/>
                </group>
                <group>
                    <field name="transfer_date"/>

@@ -26,6 +26,19 @@
         </field>
     </record>
 
+    <record id="action_machine_service_list_view" model="ir.ui.view">
+        <field name="name">machine.service.list</field>
+        <field name="model">machine.service</field>
+        <field name="arch" type="xml">
+                <list>
+                    <field name="sequence_no_service"/>
+                    <field name="machine_id"/>
+                    <field name="partner_id" string="Customer"/>
+                    <field name="date"/>
+                </list>
+        </field>
+    </record>
+
     <record id="action_machine_service_form_view" model="ir.ui.view">
         <field name="name">machine.service.form</field>
         <field name="model">machine.service</field>
