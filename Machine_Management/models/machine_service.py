@@ -23,12 +23,13 @@ class MachineService(models.Model):
         copy=True)
     invoice_count = fields.Integer(string='Invoice Count',tracking=True,compute='_compute_invoice_count')
     active = fields.Boolean(string='Active',tracking=True,default=True)
+    invoice_ids = fields.One2many('account.move','service_id')
 
     @api.depends()
     def _compute_invoice_count(self):
         """To compute invoice count for a particular service"""
         for record in self:
-            record.invoice_count = self.env['account.move'].search_count([('ref','=',record.partner_id)])
+            record.invoice_count = self.env['account.move'].search_count([('service_id','=',record.id)])
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -45,7 +46,7 @@ class MachineService(models.Model):
             'name': 'invoice',
             'view_mode': 'list,form',
             'res_model': 'account.move',
-            'domain': [('ref', '=', self.partner_id.id)],
+            'domain': [('service_id', '=', self.id)],
             'context': "{'create': False}"
         }
 
@@ -91,7 +92,7 @@ class MachineService(models.Model):
         if invoiced_in_draft:
             invoiced_in_draft[0].update({
                 'invoice_line_ids': line,
-                'ref': self.partner_id.id,
+                'service_id' : self.id,
             })
             return {
                 'type': 'ir.actions.act_window',
@@ -106,6 +107,7 @@ class MachineService(models.Model):
                 'ref': self.partner_id.id,
                 'partner_id': self.partner_id.id,
                 'invoice_date': fields.Datetime.today(),
+                'service_id' : self.id,
                 'invoice_line_ids': line
             })
         return {
@@ -121,4 +123,9 @@ class MachineService(models.Model):
         if not self.env.user.has_group('machine_management.group_machine_management_manager'):
                 raise UserError("You don't have the access to Archive a Service, Contact Your Administrator")
         return super().action_archive()
+
+    class AccountMove(models.Model):
+        _inherit = 'account.move'
+
+        service_id = fields.Many2one('machine.service',string='Machine Service')
 

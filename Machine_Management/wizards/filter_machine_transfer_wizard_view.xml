@@ -23,7 +23,6 @@
                    <field name="transfer_type"/>
                </group>
                <footer>
-<!--                   <button name="%(machine_management.machine_transfer_report)d" string="Print" type="action"/>-->
                    <button name="action_filter_machine_transfer" string="Print" type="object"/>
                    <button name="cancel" string="Cancel" special="cancel"/>
                </footer>
