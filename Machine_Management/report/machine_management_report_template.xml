@@ -54,10 +54,9 @@
 
    <data>
     <template id="report_machine_transfer_document_second">
+        <t t-call="web.external_layout">
            <t t-call="web.html_container">
                <t t-foreach="docs" t-as="o">
-                   <t t-call="web.external_layout">
-                       <div class="page">
                            <h3>Machine Transfer: <span t-field="o.sequence_no_transfer"/></h3>
                            <table class="table table-sm">
                                <thead>
@@ -79,7 +78,7 @@
                                    </tr>
                                </tbody>
                            </table>
-                       </div>
+                   <br/>
                    </t>
                </t>
            </t>
