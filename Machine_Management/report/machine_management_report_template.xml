@@ -56,32 +56,35 @@
     <template id="report_machine_transfer_document_second">
         <t t-call="web.external_layout">
            <t t-call="web.html_container">
-               <t t-foreach="docs" t-as="o">
-                           <h3>Machine Transfer: <span t-field="o.sequence_no_transfer"/></h3>
+               <h2 t-if="docs[-1].id == 0 " >Machine : <span t-field="docs[0].machine_id.name"/></h2>
+               <h2 t-if="docs[-1].id == 1 " >Customer : <span t-field="docs[0].partner_id.name"/></h2>
                            <table class="table table-sm">
                                <thead>
                                    <tr>
-                                       <th>Machine</th>
+                                       <th>Transfer Code</th>
+                                       <th t-if="docs[-1].id != 0 ">Machine</th>
                                        <th>Transfer Type</th>
-                                       <th>Customer</th>
+                                       <th t-if="docs[-1].id != 1 ">Customer</th>
                                        <th>Transfer From</th>
                                        <th>Transfer Till</th>
                                    </tr>
                                </thead>
+                               <t t-foreach="docs[:-1]" t-as="o">
                                <tbody>
                                    <tr>
-                                       <td><span t-field="o.machine_id.name"/></td>
+                                       <td><span t-field="o.sequence_no_transfer"/></td>
+                                       <td t-if="docs[-1].id != 0 "><span t-field="o.machine_id.name"/></td>
                                        <td><span t-field="o.transfer_type"/></td>
-                                       <td><span t-field="o.partner_id.name"/></td>
+                                       <td t-if="docs[-1].id != 1 "><span t-field="o.partner_id.name"/></td>
                                        <td><span t-field="o.transfer_date"/></td>
                                        <td><span t-field="o.transfer_to_date"/></td>
                                    </tr>
                                </tbody>
+                               </t>
                            </table>
                    <br/>
                    </t>
                </t>
-           </t>
        </template>
    </data>
 </odoo>

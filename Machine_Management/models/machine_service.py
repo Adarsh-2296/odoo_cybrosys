@@ -23,13 +23,13 @@ class MachineService(models.Model):
         copy=True)
     invoice_count = fields.Integer(string='Invoice Count',tracking=True,compute='_compute_invoice_count')
     active = fields.Boolean(string='Active',tracking=True,default=True)
-    invoice_ids = fields.One2many('account.move','service_id')
+    invoice_ids = fields.One2many('account.move','service_ids')
 
     @api.depends()
     def _compute_invoice_count(self):
         """To compute invoice count for a particular service"""
         for record in self:
-            record.invoice_count = self.env['account.move'].search_count([('service_id','=',record.id)])
+            record.invoice_count = self.env['account.move'].search_count([('service_ids','=',record.id)])
 
     @api.model_create_multi
     def create(self, vals_list):
@@ -46,7 +46,7 @@ class MachineService(models.Model):
             'name': 'invoice',
             'view_mode': 'list,form',
             'res_model': 'account.move',
-            'domain': [('service_id', '=', self.id)],
+            'domain': [('service_ids', '=', self.id)],
             'context': "{'create': False}"
         }
 
@@ -76,6 +76,7 @@ class MachineService(models.Model):
         price = self.parts_line_ids.mapped('product_id.list_price')
         if invoiced_in_draft:
             invoice_line_products = invoiced_in_draft[0].invoice_line_ids.mapped('product_id.id')
+            service = invoiced_in_draft[0].service_ids + self
         else:
             invoice_line_products = []
         for i in range(len(product)):
@@ -92,7 +93,7 @@ class MachineService(models.Model):
         if invoiced_in_draft:
             invoiced_in_draft[0].update({
                 'invoice_line_ids': line,
-                'service_id' : self.id,
+                'service_ids' : service.mapped('id'),
             })
             return {
                 'type': 'ir.actions.act_window',
@@ -104,10 +105,9 @@ class MachineService(models.Model):
         else:
                 invoice = self.env['account.move'].create({
                 'move_type': 'out_invoice',
-                'ref': self.partner_id.id,
                 'partner_id': self.partner_id.id,
                 'invoice_date': fields.Datetime.today(),
-                'service_id' : self.id,
+                'service_ids' : [self.id],
                 'invoice_line_ids': line
             })
         return {
@@ -127,5 +127,5 @@ class MachineService(models.Model):
     class AccountMove(models.Model):
         _inherit = 'account.move'
 
-        service_id = fields.Many2one('machine.service',string='Machine Service')
+        service_ids = fields.Many2many('machine.service',string='Machine Service')
 
