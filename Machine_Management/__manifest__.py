@@ -16,6 +16,7 @@
         'security/res_groups.xml',
         'security/ir_rules.xml',
         'security/ir.model.access.csv',
+        'static/src/js/action_manager.js',
         'report/machine_management_report.xml',
         'report/machine_management_report_template.xml',
         'data/machine_management_sequence.xml',
@@ -29,5 +30,10 @@
         'views/machine_transfer_views.xml',
         'views/machine_management_views.xml',
         'views/machine_management_menus.xml',
-    ]
+    ],
+    'assets': {
+        'web.assets_backend': [
+            'machine_management/static/src/js/action_manager.js'
+        ],
+    }
 }

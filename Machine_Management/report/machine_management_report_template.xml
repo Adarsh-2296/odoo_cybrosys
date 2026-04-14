@@ -53,18 +53,27 @@
    </data>
 
    <data>
-    <template id="report_machine_transfer_document_second">
+    <template id="transfer_table">
         <t t-call="web.external_layout">
            <t t-call="web.html_container">
-               <h2 t-if="docs[-1].id == 0 " >Machine : <span t-field="docs[0].machine_id.name"/></h2>
-               <h2 t-if="docs[-1].id == 1 " >Customer : <span t-field="docs[0].partner_id.name"/></h2>
+               <div class="page">
+               <header>
+                   <style>
+                       table, th, td {
+                       border: 1px solid black;
+                       }
+
+                   </style>
+               </header>
+                            <h2 t-if="docs[-1] == 0 " >Machine : <span t-field="docs[0].machine_id.name"/></h2>
+                            <h2 t-if="docs[-1] == 1 " >Customer : <span t-field="docs[0].partner_id.name"/></h2>
                            <table class="table table-sm">
                                <thead>
                                    <tr>
                                        <th>Transfer Code</th>
-                                       <th t-if="docs[-1].id != 0 ">Machine</th>
+                                       <th t-if="docs[-1] != 0 ">Machine</th>
                                        <th>Transfer Type</th>
-                                       <th t-if="docs[-1].id != 1 ">Customer</th>
+                                       <th t-if="docs[-1] != 1 ">Customer</th>
                                        <th>Transfer From</th>
                                        <th>Transfer Till</th>
                                    </tr>
@@ -73,18 +82,20 @@
                                <tbody>
                                    <tr>
                                        <td><span t-field="o.sequence_no_transfer"/></td>
-                                       <td t-if="docs[-1].id != 0 "><span t-field="o.machine_id.name"/></td>
+                                       <td t-if="docs[-1] != 0 "><span t-field="o.machine_id.name"/></td>
                                        <td><span t-field="o.transfer_type"/></td>
-                                       <td t-if="docs[-1].id != 1 "><span t-field="o.partner_id.name"/></td>
+                                       <td t-if="docs[-1] != 1 "><span t-field="o.partner_id.name"/></td>
                                        <td><span t-field="o.transfer_date"/></td>
                                        <td><span t-field="o.transfer_to_date"/></td>
                                    </tr>
                                </tbody>
                                </t>
                            </table>
-                   <br/>
+               </div>
                    </t>
                </t>
        </template>
    </data>
 </odoo>
+
+
