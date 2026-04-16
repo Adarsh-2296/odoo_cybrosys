@@ -9,7 +9,7 @@ class XLSXReportController(http.Controller):
                 csrf=False)
     def get_report_xlsx(self, model, options, output_format, report_name):
         """xlsx report"""
-        print('c')
+
         report_obj = request.env[model].with_user(request.session.uid)
         options = json.loads(options)
         token = 'dummy-because-api-expects-one'
