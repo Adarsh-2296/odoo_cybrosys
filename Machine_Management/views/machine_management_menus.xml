@@ -7,8 +7,7 @@
         <menuitem id="Config_menu_machine_management" name="Configuration" parent="machine_management_root"/>
         <menuitem id="report_machine_transfer_menu" name="Report" parent="machine_management_root" />
                 <!--      Sub Menu With Action-->
-            <menuitem id="pdfreport_machine_transfer_submenu" name="PDF Report" parent="report_machine_transfer_menu" action="action_report_machine_transfer"/>
-            <menuitem id="xlsxreport_machine_transfer_submenu" name="XLSX Report" parent="report_machine_transfer_menu" action="action_xlsxreport_machine_transfer" />
+            <menuitem id="pdfreport_machine_transfer_submenu" name="Print Report" parent="report_machine_transfer_menu" action="action_report_machine_transfer"/>
             <menuitem id="machine_management_submenu" name="Machines" action="action_machine_management" parent="machine_management_menu"/>
             <menuitem id="machine_transfers_submenu" name="Transfers" action="action_machine_transfer" parent="Config_menu_machine_management"/>
             <menuitem id="machine_service_submenu" name="Services" action="action_machine_service" parent="Config_menu_machine_management"/>

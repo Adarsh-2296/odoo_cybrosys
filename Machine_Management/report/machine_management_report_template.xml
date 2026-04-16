@@ -65,30 +65,67 @@
 
                    </style>
                </header>
-                            <h2 t-if="docs[-1] == 0 " >Machine : <span t-field="docs[0].machine_id.name"/></h2>
-                            <h2 t-if="docs[-1] == 1 " >Customer : <span t-field="docs[0].partner_id.name"/></h2>
+                   <t t-if="docs[1] == 1 ">
+                            <h2 t-if="docs[-1] == 0 " >Machine : <span t-field="docs[2].machine_id.name"/>| Type : Install</h2>
+                            <h2 t-if="docs[-1] == 1 " >Customer : <span t-field="docs[2].partner_id.name"/>| Type : Install</h2>
+                   </t>
+                   <t t-if="docs[-1] == 2">
+                            <h2 t-if="docs[1] == 1 " >Type : Install</h2>
+                   </t>
                            <table class="table table-sm">
+                               <t t-if="docs[1] == 1 ">
                                <thead>
                                    <tr>
                                        <th>Transfer Code</th>
                                        <th t-if="docs[-1] != 0 ">Machine</th>
-                                       <th>Transfer Type</th>
                                        <th t-if="docs[-1] != 1 ">Customer</th>
                                        <th>Transfer From</th>
                                        <th>Transfer Till</th>
                                    </tr>
                                </thead>
-                               <t t-foreach="docs[:-1]" t-as="o">
+                               </t>
+                               <t t-foreach="docs[2:-1]" t-as="o">
+                               <t t-if="o.transfer_type == 'install'">
                                <tbody>
                                    <tr>
                                        <td><span t-field="o.sequence_no_transfer"/></td>
                                        <td t-if="docs[-1] != 0 "><span t-field="o.machine_id.name"/></td>
-                                       <td><span t-field="o.transfer_type"/></td>
                                        <td t-if="docs[-1] != 1 "><span t-field="o.partner_id.name"/></td>
                                        <td><span t-field="o.transfer_date"/></td>
                                        <td><span t-field="o.transfer_to_date"/></td>
                                    </tr>
                                </tbody>
+                                   </t>
+                               </t>
+                           </table><br/>
+                   <t t-if="docs[0] == 0 ">
+                   <h2 t-if="docs[-1] == 0 " >Machine : <span t-field="docs[2].machine_id.name"/>| Type : Remove</h2>
+                   </t>
+                   <t t-if="docs[-1] != 0">
+                   <h2 t-if="docs[0] == 0 " >Type : Remove</h2>
+                   </t>
+                   <table class="table table-sm">
+                       <t t-if="docs[0] == 0 ">
+                               <thead>
+                                   <tr>
+                                       <th>Transfer Code</th>
+                                       <th t-if="docs[-1] != 0 ">Machine</th>
+                                       <th>Transfer From</th>
+                                       <th>Transfer Till</th>
+                                   </tr>
+                               </thead>
+                       </t>
+                               <t t-foreach="docs[2:-1]" t-as="o">
+                                   <t t-if="o.transfer_type == 'remove'">
+                               <tbody>
+                                   <tr>
+                                       <td><span t-field="o.sequence_no_transfer"/></td>
+                                       <td t-if="docs[-1] != 0 "><span t-field="o.machine_id.name"/></td>
+                                       <td><span t-field="o.transfer_date"/></td>
+                                       <td><span t-field="o.transfer_to_date"/></td>
+                                   </tr>
+                               </tbody>
+                                   </t>
                                </t>
                            </table>
                </div>
