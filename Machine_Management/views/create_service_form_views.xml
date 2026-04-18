@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Customer Create Form Template -->
+        <template id="create_service_template" name="Customer Form">
+            <t t-call="website.layout">
+                <section class="container py-5">
+                    <div class="row justify-content-center">
+                        <div class="col-md-6 col-lg-5">
+                            <div class="card shadow rounded-3 border-0">
+                                <div class="card-body p-4">
+                                    <h3 class="mb-4 text-center">Create New Service</h3>
+                                    <form action="/website/service/create" method="post">
+                                        <div class="mb-3">
+                                            <label class="form-label">Machine</label>
+                                           <select name="machine" class="form-control s_website_form_input">
+                                               <option></option>
+                                                <option t-foreach="machine" t-as="mac" t-att-value="mac['id']" t-out="mac['name']"/>
+                                           </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Customer</label>
+                                           <select name="partner" class="form-control s_website_form_input">
+                                               <option></option>
+                                                <option t-foreach="partner" t-as="cust" t-att-value="cust['id']" t-out="cust['name']"/>
+                                           </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Tech Person</label>
+                                           <select name="user" class="form-control s_website_form_input">
+                                               <option></option>
+                                                <option t-foreach="user" t-as="u" t-att-value="u['id']" t-out="u['name']"/>
+                                           </select>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Date</label>
+                                           <input type="date" name="date" class="form-control s_website_form_input"/>
+                                        </div>
+                                        <div class="mb-3">
+                                            <label class="form-label">Description</label>
+                                           <input type="textarea" name="description" class="form-control s_website_form_input"/>
+                                        </div>
+                                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                                        <div class="d-grid">
+                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </t>
+        </template>
+        <!-- Success Page -->
+        <template id="create_success_template" name="Customer Created">
+            <t t-call="website.layout">
+                <div class="container">
+                    <h3>Service Created Successfully!</h3>
+                </div>
+            </t>
+        </template>
+        <!-- Website Menu Record -->
+        <record id="menu_create_service_form" model="website.menu">
+            <field name="name">Create Service</field>
+            <field name="url">/website/service/form</field>
+            <field name="parent_id" ref="website.main_menu"/>
+            <field name="sequence" type="int">60</field>
+        </record>
+    </data>
+</odoo>
