@@ -21,7 +21,7 @@ class FilterMachineTransferWizard(models.TransientModel):
     partner_ids = fields.Many2many('res.partner', string="Customer")
 
     def action_filter_machine_transfer(self):
-        """button action on the wizard returns the values in the wizard"""
+        """button action to print pdf report on the wizard returns the values in the wizard"""
         data = {
             'machine_id': self.mapped('machine_ids.id'),
             'transfer_date': self.transfer_date,
@@ -32,6 +32,7 @@ class FilterMachineTransferWizard(models.TransientModel):
         return self.env.ref('machine_management.machine_transfer_report_table').report_action(None, data=data)
 
     def action_print_transfer_xlsx(self):
+        """Button action to print xlsx file on wizard returns the values in the wizard"""
         data = {
             'machine_ids': self.mapped('machine_ids.id'),
             'transfer_date': self.transfer_date,
