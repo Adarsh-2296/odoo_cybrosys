@@ -1,55 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
-        <!-- Customer Create Form Template -->
-        <template id="create_service_template" name="Customer Form">
+        <!-- Machine Service Create Form Template -->
+        <template id="create_service_template" name="Service Form">
             <t t-call="website.layout">
-                <section class="container py-5">
-                    <div class="row justify-content-center">
-                        <div class="col-md-6 col-lg-5">
-                            <div class="card shadow rounded-3 border-0">
-                                <div class="card-body p-4">
-                                    <h3 class="mb-4 text-center">Create New Service</h3>
-                                    <form action="/website/service/create" method="post">
-                                        <div class="mb-3">
-                                            <label class="form-label">Machine</label>
-                                           <select name="machine" class="form-control s_website_form_input">
-                                               <option></option>
-                                                <option t-foreach="machine" t-as="mac" t-att-value="mac['id']" t-out="mac['name']"/>
-                                           </select>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label">Customer</label>
-                                           <select name="partner" class="form-control s_website_form_input">
-                                               <option></option>
-                                                <option t-foreach="partner" t-as="cust" t-att-value="cust['id']" t-out="cust['name']"/>
-                                           </select>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label">Tech Person</label>
-                                           <select name="user" class="form-control s_website_form_input">
-                                               <option></option>
-                                                <option t-foreach="user" t-as="u" t-att-value="u['id']" t-out="u['name']"/>
-                                           </select>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label">Date</label>
-                                           <input type="date" name="date" class="form-control s_website_form_input"/>
-                                        </div>
-                                        <div class="mb-3">
-                                            <label class="form-label">Description</label>
-                                           <input type="textarea" name="description" class="form-control s_website_form_input"/>
-                                        </div>
-                                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
-                                        <div class="d-grid">
-                                            <button type="submit" class="btn btn-primary">Submit</button>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
+                <section class="s_title parallax s_parallax_is_fixed bg-black-50 pt24 pb24" data-vcss="001" data-snippet="s_title" data-scroll-background-ratio="1">
+                    <span class="s_parallax_bg oe_img_bg" style="background-image: url('/web/image/website.s_parallax_default_image'); background-position: 50% 0;"/>
+                    <div class="o_we_bg_filter bg-black-50"/>
+                    <div class="container">
+                        <h1>Machine Service</h1>
                     </div>
                 </section>
+                <section>
+                <div class="container s_allow_columns">
+                    <div class="row">
+                        <div class="col-lg-7 mt-4 mt-lg-0">
+                            <br/><br/>
+
+                                    Create a service request for your machine through our website.<br/>
+                                    Fill out the details and Submit, Done!
+
+                <section class="container py-5">
+                    <div class="container">
+                    <form id="service_form" action="/website/service/create" method="post" class="o_mark_required" data-mark="*" >
+                    <div class="s_website_form_rows row s_col_no_bgcolor">
+                    <div class="mb-3 col-lg-6 s_website_form_field s_website_form_custom s_website_form_required" data-type="char" data-name="Field">
+                        <label class="s_website_form_label" style="width: 200px" >
+                            <span class="s_website_form_label_content">Machine</span>
+                            <span class="s_website_form_mark"> *</span>
+                        </label>
+                        <select required="" name="machine"  class="form-control s_website_form_input">
+                            <option></option>
+                            <option t-foreach="machine" t-as="mac" t-att-value="mac['id']" t-out="mac['name']"/>
+                        </select>
+                    </div>
+                        <div class="mb-3 col-lg-6 s_website_form_field s_website_form_custom s_website_form_required" >
+                        <label class="s_website_form_label" style="width: 200px" >
+                            <span class="s_website_form_label_content">Customer</span>
+                            <span class="s_website_form_mark"> *</span>
+                        </label>
+                        <select required="" name="partner" class="form-control s_website_form_input">
+                            <option></option>
+                            <option t-foreach="partner" t-as="cus" t-att-value="cus['id']" t-out="cus['name']"/>
+                        </select>
+                    </div>
+                        <div class="mb-3 col-lg-6 s_website_form_field s_website_form_custom s_website_form_required" >
+                        <label class="s_website_form_label" style="width: 200px" >
+                            <span class="s_website_form_label_content">Tech Person</span>
+                            <span class="s_website_form_mark"> *</span>
+                        </label>
+                        <select required="" name="user" class="form-control s_website_form_input">
+                            <option></option>
+                            <option t-foreach="user" t-as="u" t-att-value="u['id']" t-out="u['name']"/>
+                        </select>
+                    </div>
+                        <div class="mb-3 col-lg-6 s_website_form_field s_website_form_custom s_website_form_required">
+                        <label class="s_website_form_label" style="width: 200px" >
+                            <span class="s_website_form_label_content">Date</span>
+                            <span class="s_website_form_mark"> *</span>
+                        </label>
+                         <input required="" type="date" name="date" class="form-control s_website_form_input"/>
+                    </div>
+                    <div class="mb-3 col-12 s_website_form_field s_website_form_custom s_website_form_required" >
+                        <label class="s_website_form_label" style="width: 200px" >
+                            <span class="s_website_form_label_content">Description</span>
+                        </label>
+                        <textarea  class="form-control s_website_form_input" name="description" ></textarea>
+                    </div>
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                        <div class="mb-0 py-2 col-12 s_website_form_submit s_website_form_no_submit_label text-end" data-name="Submit Button">
+                            <div style="width: 200px;" class="s_website_form_label"/>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </div>
+                    </form>
+                    </div>
+                        </section>
+                        </div>
+                        <div class="col-lg-4 offset-lg-1 mt-4 mt-lg-0">
+                            <br/>
+                            <br/>
+                                <h5>My Company</h5>
+                                <ul class="list-unstyled mb-0 ps-2">
+                                    <li><i class="fa fa-map-marker fa-fw me-2"/><span class="o_force_ltr">3575 Fake Buena Vista Avenue</span></li>
+                                    <li><i class="fa fa-phone fa-fw me-2"/><span class="o_force_ltr">+1 555-555-5556</span></li>
+                                    <li><i class="fa fa-1x fa-fw fa-envelope me-2"/><span>info@yourcompany.example.com</span></li>
+                                </ul>
+                            </div>
+                    </div>
+                    </div>
+                </section>
+
             </t>
         </template>
         <!-- Success Page -->

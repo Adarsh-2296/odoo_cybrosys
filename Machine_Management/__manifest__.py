@@ -24,6 +24,8 @@
         'data/email_template_service.xml',
         'data/recurring_service_creation.xml',
         'wizards/filter_machine_transfer_wizard_view.xml',
+        'views/create_customer_form_views.xml',
+        'views/portal_templates.xml',
         'views/create_service_form_views.xml',
         'views/res_partner_views.xml',
         'views/machine_management_order_line_views.xml',

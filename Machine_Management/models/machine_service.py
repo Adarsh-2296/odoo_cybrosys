@@ -70,13 +70,12 @@ class MachineService(models.Model):
         self.write({'state': 'invoiced'})
         """To find if there are any invoices in draft state """
         invoiced_in_draft = self.env['account.move'].search([('status_in_payment','=','draft'),('partner_id','=',self.partner_id)])
-        line = [Command.create({'name': 'Service Charge', 'quantity': 1, 'price_unit': 100})]
+        line = [Command.create({'product_id': self.env.ref('machine_management.machine_service_charge_product').product_variant_ids.id, 'quantity': 1, 'price_unit': 100})]
         product = self.parts_line_ids.mapped('product_id.id')
         quantity = self.parts_line_ids.mapped('quantity')
         price = self.parts_line_ids.mapped('product_id.list_price')
         if invoiced_in_draft:
             invoice_line_products = invoiced_in_draft[0].invoice_line_ids.mapped('product_id.id')
-            service = invoiced_in_draft[0].service_ids + self
         else:
             invoice_line_products = []
         for i in range(len(product)):
@@ -93,7 +92,7 @@ class MachineService(models.Model):
         if invoiced_in_draft:
             invoiced_in_draft[0].update({
                 'invoice_line_ids': line,
-                'service_ids' : service.mapped('id'),
+                'service_ids' : [Command.link(self.id)],
             })
             return {
                 'type': 'ir.actions.act_window',
@@ -107,7 +106,7 @@ class MachineService(models.Model):
                 'move_type': 'out_invoice',
                 'partner_id': self.partner_id.id,
                 'invoice_date': fields.Datetime.today(),
-                'service_ids' : [self.id],
+                'service_ids' : [Command.link(self.id)],
                 'invoice_line_ids': line
             })
         return {

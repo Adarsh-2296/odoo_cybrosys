@@ -72,7 +72,6 @@ class MachineTransferWizard(models.TransientModel):
 
         output = io.BytesIO()
         workbook = xlsxwriter.Workbook(output, {'in_memory': True})
-        wrap = workbook.add_format({'text_wrap': True})
         sheet = workbook.add_worksheet('docs')
         head = workbook.add_format({'bold': True, 'font_size': 30, 'align': 'center'})
         bold = workbook.add_format({'bold': True, 'align': 'center'})
