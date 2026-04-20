@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template
+        id="machines"
+        name="Machines"
+        inherit_id="portal.portal_my_home"
+    >
+        <div id="portal_common_category" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="icon" t-value="'/portal/static/src/img/portal-addresses.svg'"/>
+                <t t-set="title">Machines</t>
+                <t t-set="text">View all the machines</t>
+                <t t-set="url" t-value="'/website/machine/details'"/>
+                <t t-set="config_card" t-value="True"/>
+            </t>
+        </div>
+    </template>
+    <template id="machine_management_details" name="Machine Management Details">
+        <t t-call="portal.portal_layout">
+        <t t-set="breadcrumbs_searchbar" t-value="True"/>
+
+        <t t-call="portal.portal_searchbar">
+            <t t-set="title">Machines</t>
+        </t>
+<!--            <div t-if="not datas" class="alert alert-warning" role="alert">-->
+<!--                There are no available machines-->
+<!--            </div>-->
+            <t t-call="portal.portal_table">
+            <thead>
+                <tr class="active">
+                    <th name="invoice_number">Machine #</th>
+                    <th name="invoice_date">Purchase Date</th>
+                    <th name="due_date" class='d-none d-md-table-cell'>Sl No.</th>
+                    <th name="amount_due" class="text-end pe-3">Price</th>
+                    <th name="status">Status</th>
+                </tr>
+            </thead>
+                <tbody>
+                <t t-foreach="name" t-as="mac">
+                    <tr>
+                        <td>
+                            <a t-att-title="mac"/>
+                        </td>
+                    </tr>
+                </t>
+                </tbody>
+        </t>
+        </t>
+        </template>
+</odoo>

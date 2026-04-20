@@ -11,4 +11,11 @@
            <field name="name">Vending</field>
        </record>
    </data>
+    <data noupdate="1">
+        <record id="machine_service_charge_product" model="product.template">
+           <field name="name">Service Charge</field>
+            <field name="type">service</field>
+            <field name="list_price">100</field>
+       </record>
+    </data>
 </odoo>

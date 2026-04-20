@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!-- Customer Create Form Template -->
+        <template id="create_customer_template" name="Customer Form">
+            <t t-call="website.layout">
+                <section class="s_title parallax s_parallax_is_fixed bg-black-50 pt24 pb24" data-vcss="001" data-snippet="s_title" data-scroll-background-ratio="1">
+                    <span class="s_parallax_bg oe_img_bg" style="background-image: url('/web/image/website.s_parallax_default_image'); background-position: 50% 0;"/>
+                    <div class="o_we_bg_filter bg-black-50"/>
+                    <div class="container">
+                        <h1>Create Your Customer Profile</h1>
+                    </div>
+                </section>
+                <section>
+                <div class="container s_allow_columns">
+                    <div class="row">
+                        <div class="col-lg-7 mt-4 mt-lg-0">
+                            <br/><br/>
+                                    Create your own profile as a customer through our website.<br/>
+                                    Fill out the details and Submit, Done!
+                <section class="container py-5">
+                    <div class="container">
+                    <form id="service_form" action="/website/customer/create" method="post" class="o_mark_required" data-mark="*" >
+                    <div class="s_website_form_rows row s_col_no_bgcolor">
+                    <div class="mb-3 col-lg-6 s_website_form_field s_website_form_custom s_website_form_required" data-type="char" data-name="Field">
+                        <label class="s_website_form_label" style="width: 200px" >
+                            <span class="s_website_form_label_content">Name</span>
+                            <span class="s_website_form_mark"> *</span>
+                        </label>
+                         <input required="" type="text" name="name" class="form-control s_website_form_input"/>
+                    </div>
+                        <div class="mb-3 col-lg-6 s_website_form_field s_website_form_custom s_website_form_required" data-type="char" data-name="Field">
+                        <label class="s_website_form_label" style="width: 200px" >
+                            <span class="s_website_form_label_content">Email</span>
+                        </label>
+                         <input type="email" name="email" class="form-control s_website_form_input"/>
+                    </div>
+                        <div class="mb-3 col-lg-6 s_website_form_field s_website_form_custom s_website_form_required" data-type="char" data-name="Field">
+                        <label class="s_website_form_label" style="width: 200px" >
+                            <span class="s_website_form_label_content">Phone</span>
+                        </label>
+                         <input type="text" name="phone" class="form-control s_website_form_input"/>
+                    </div>
+                        <div class="mb-3 col-lg-6 s_website_form_field s_website_form_custom s_website_form_required" data-type="char" data-name="Field">
+                        <label class="s_website_form_label" style="width: 200px" >
+                            <span class="s_website_form_label_content">Type</span>
+                            <span class="s_website_form_mark"> *</span>
+                        </label>
+                            <select required="" name="company_type"  class="form-control s_website_form_input">
+                                <option></option>
+                                <option value="person">Person</option>
+                                <option value="company">Company</option>
+                            </select>
+                    </div>
+                        <span class="o_form_label o_td_label o_address_type" name="address_name">
+                                <span invisible="not is_company">Address</span>
+                            </span>
+                            <div class="o_address_format">
+                                <input name="street" type="text" placeholder="Street..."  class="form-control s_website_form_input"/>
+                                <input name="street2" type="text" placeholder="Street 2..."  class="form-control s_website_form_input"/>
+                                <input name="city" type="text" placeholder="City"  class="form-control s_website_form_input"/>
+                                <input name="zip" type="text" placeholder="ZIP" class="form-control s_website_form_input"/><br/>
+                                <label class="s_website_form_label" style="width: 200px" >
+                                    <span class="s_website_form_label_content">Country</span>
+                                </label>
+                                <select name="country"  class="form-control s_website_form_input">
+                                    <option></option>
+                                    <option t-foreach="country"  t-as="c" t-att-value="c['id']" t-out="c['name']"/>
+                                </select>
+                            </div>
+                        <input type="hidden" name="csrf_token" t-att-value="request.csrf_token()"/>
+                        <div class="mb-0 py-2 col-12 s_website_form_submit s_website_form_no_submit_label text-end" data-name="Submit Button">
+                            <div style="width: 200px;" class="s_website_form_label"/>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </div>
+                    </form>
+                    </div>
+                        </section>
+                        </div>
+                        <div class="col-lg-4 offset-lg-1 mt-4 mt-lg-0">
+                            <br/>
+                            <br/>
+                                <h5>My Company</h5>
+                                <ul class="list-unstyled mb-0 ps-2">
+                                    <li><i class="fa fa-map-marker fa-fw me-2"/><span class="o_force_ltr">3575 Fake Buena Vista Avenue</span></li>
+                                    <li><i class="fa fa-phone fa-fw me-2"/><span class="o_force_ltr">+1 555-555-5556</span></li>
+                                    <li><i class="fa fa-1x fa-fw fa-envelope me-2"/><span>info@yourcompany.example.com</span></li>
+                                </ul>
+                            </div>
+                    </div>
+                    </div>
+                </section>
+
+            </t>
+        </template>
+        <!-- Website Menu Record -->
+        <record id="menu_create_customer_form" model="website.menu">
+            <field name="name">Create Customer</field>
+            <field name="url">/website/customer/form</field>
+            <field name="parent_id" ref="website.main_menu"/>
+            <field name="sequence" type="int">60</field>
+        </record>
+    </data>
+</odoo>
