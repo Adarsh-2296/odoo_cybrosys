@@ -1,13 +1,13 @@
-from odoo import http, Command,fields
+from odoo import http, Command
 from odoo.http import request
 
 
 class CreateService(http.Controller):
     @http.route(['/website/service/form'], type='http', auth="public", website=True)
     def website_machine_service_form(self, **kw):
-        machines = self.env['machine.management'].search([])
-        partner = self.env['res.partner'].search([])
-        user = self.env['res.users'].search([('share','=',False),('active','=',True)])
+        machines = self.env['machine.management'].sudo().search([])
+        partner = self.env['res.partner'].sudo().search([])
+        user = self.env['res.users'].sudo().search([('share','=',False),('active','=',True)])
         datas = {
             'machine' : machines,
             'partner' : partner,

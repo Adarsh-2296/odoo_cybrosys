@@ -10,41 +10,75 @@
                 <t t-set="icon" t-value="'/portal/static/src/img/portal-addresses.svg'"/>
                 <t t-set="title">Machines</t>
                 <t t-set="text">View all the machines</t>
-                <t t-set="url" t-value="'/website/machine/details'"/>
+                <t t-set="url" t-value="'/website/machine'"/>
                 <t t-set="config_card" t-value="True"/>
             </t>
         </div>
     </template>
-    <template id="machine_management_details" name="Machine Management Details">
+    <template id="portal_machine_details" name="Machine Management Details">
         <t t-call="portal.portal_layout">
         <t t-set="breadcrumbs_searchbar" t-value="True"/>
 
         <t t-call="portal.portal_searchbar">
             <t t-set="title">Machines</t>
         </t>
-<!--            <div t-if="not datas" class="alert alert-warning" role="alert">-->
-<!--                There are no available machines-->
-<!--            </div>-->
             <t t-call="portal.portal_table">
             <thead>
                 <tr class="active">
-                    <th name="invoice_number">Machine #</th>
-                    <th name="invoice_date">Purchase Date</th>
-                    <th name="due_date" class='d-none d-md-table-cell'>Sl No.</th>
-                    <th name="amount_due" class="text-end pe-3">Price</th>
+                    <th name="machine">Machine #</th>
+                    <th name="purchase_date">Purchase Date</th>
+                    <th name="serial_number">Sl No.</th>
+                    <th name="price">Price</th>
                     <th name="status">Status</th>
+                    <th name="image">Image</th>
                 </tr>
             </thead>
                 <tbody>
-                <t t-foreach="name" t-as="mac">
+                <t t-foreach="machine" t-as="mac">
                     <tr>
+
                         <td>
-                            <a t-att-title="mac"/>
+                            <a t-att-href="url + str(mac.id)" t-att-title="mac.name">
+                                <t t-out="mac.name"/>
+                            </a>
                         </td>
+                            <td>
+                                <span t-field="mac.date_of_purchase"/>
+                            </td>
+                            <td>
+                                <span t-field="mac.serial_no"/>
+                            </td>
+                            <td>
+                                <span t-field="mac.purchase_value"/>
+                            </td>
+                            <td>
+                                <span t-field="mac.state"/>
+                            </td>
+                            <td>
+                                <img t-att-src="'/web/image/%s/%s/image' % (mac._name, mac.id)"/>
+                            </td>
                     </tr>
-                </t>
-                </tbody>
+                     </t>
+            </tbody>
         </t>
         </t>
         </template>
+    <template id="website_machine_details" name="Machine Form">
+           <t t-call="portal.portal_layout">
+        <t t-set="breadcrumbs_searchbar" t-value="True"/>
+        <t t-call="portal.portal_searchbar">
+            <t t-set="title">Machine Details</t>
+        </t>
+               <t t-foreach="machine" t-as="mac">
+                   <h1> <span t-field="mac.name"/> </h1>
+                   <p>
+                       <b>Purchase Date:</b> <span t-field="mac.date_of_purchase"/><br/>
+                       <b>Serial No:</b> <span t-field="mac.serial_no"/><br/>
+                       <b>Price:</b> <span t-field="mac.purchase_value"/><br/>
+                       <b>Status:</b> <span t-field="mac.state"/><br/>
+                       <img t-att-src="image"/>
+                   </p>
+               </t>
+           </t>
+    </template>
 </odoo>
