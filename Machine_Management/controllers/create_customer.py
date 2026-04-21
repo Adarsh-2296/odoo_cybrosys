@@ -4,7 +4,7 @@ from odoo.http import request
 class CreateService(http.Controller):
     @http.route(['/website/customer/form'], type='http', auth="public", website=True)
     def website_machine_service_form(self, **kw):
-        country = self.env['res.country'].search([])
+        country = self.env['res.country'].sudo().search([])
         datas = {
             'country': country,
         }

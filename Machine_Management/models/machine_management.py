@@ -3,6 +3,7 @@ from odoo import fields,models,api, _
 from odoo.exceptions import ValidationError,UserError
 from datetime import date
 
+
 class MachineManagement(models.Model):
     _name = 'machine.management'
     _description = 'Machine Management'
@@ -19,7 +20,7 @@ class MachineManagement(models.Model):
     purchase_value = fields.Monetary(required=True, help="Purchase value of the machine", tracking=True)
     partner_id = fields.Many2one('res.partner', help="Customer of the machine", tracking=True,readonly=True,store=True)
     state = fields.Selection(selection=[('active', 'Active'),('in_service', 'In Service'),], default='active', help="State of the machine", tracking=True)
-    image = fields.Image( tracking=True)
+    image = fields.Binary( string="Image")
     description = fields.Text(required=True, help="Description of the machine", tracking=True)
     warranty = fields.Selection(selection=[('yes', 'Yes'),('no', 'No')], default='no', help="If the machine has warranty or not", tracking=True)
     machine_instruction = fields.Html(help="Instructions to use the machine")
@@ -219,4 +220,7 @@ class MachineTags(models.Model):
 
     name = fields.Char(required=True, string="Machine Tag")
     color = fields.Integer(string="Colour")
+
+
+
 
