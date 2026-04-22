@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<odoo>
+   <template id="s_machine_snippet_template" name="Machine Snippet">
+       <section class="categories_section">
+           <div class="container">
+               <div class="alert alert-info">
+                   <h4>Your Machines will be displayed here...
+                       Please save to view the snippet
+                   </h4>
+               </div>
+           </div>
+       </section>
+   </template>
+   <template id="category_highlight_snippet" inherit_id="website.snippets"
+             name="Machine Snippet">
+       <xpath expr="//snippets[@id='snippet_groups']" position="inside">
+           <t t-snippet="machine_management.s_machine_snippet_template">
+
+           </t></xpath>
+       <xpath expr="//snippets[@id='snippet_structure']" position="inside">
+           <t t-snippet="machine_management.s_machine_snippet_template"/>
+       </xpath>
+   </template>
+</odoo>
