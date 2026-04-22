@@ -15,7 +15,7 @@ registry.category("ir.actions.report handlers").add("xlsx", async function (acti
        BlockUI;
       await download({
               url: '/xlsx_reports',
-              data: action.data,
+                  data: action.data,
               complete: () => unblockUI,
               error: (error) => self.call('crash_manager', 'rpc_error', error),
               });

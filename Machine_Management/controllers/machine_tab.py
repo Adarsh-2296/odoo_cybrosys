@@ -1,7 +1,5 @@
 from odoo import http
 from odoo.http import request
-from qrcode import image
-
 
 class CreateService(http.Controller):
     @http.route(['/website/machine'], type='http', auth="public", website=True)
