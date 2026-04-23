@@ -10,4 +10,5 @@ class WebsiteProduct(http.Controller):
        values = {
            'machine': machine,
        }
+       print(values)
        return values
