@@ -11,7 +11,7 @@
     'installable': True,
     'application': True,
     'auto_install': True,
-    'depends': ['mail','product','account','sale_management','website_sale'],
+    'depends': ['mail','product','account','sale_management','website_sale',],
     'data': [
         'security/res_groups.xml',
         'security/ir_rules.xml',
@@ -24,7 +24,7 @@
         'data/email_template_service.xml',
         'data/recurring_service_creation.xml',
         'wizards/filter_machine_transfer_wizard_view.xml',
-        'views/snippets/machine_snippet_views.xml',
+        'views/snippets/s_machine_snippet_views.xml',
         'views/create_customer_form_views.xml',
         'views/portal_templates.xml',
         'views/create_service_form_views.xml',
