@@ -25,6 +25,7 @@
         'data/recurring_service_creation.xml',
         'wizards/filter_machine_transfer_wizard_view.xml',
         'views/snippets/s_machine_snippet_views.xml',
+        'views/machine_website_views.xml',
         'views/create_customer_form_views.xml',
         'views/portal_templates.xml',
         'views/create_service_form_views.xml',

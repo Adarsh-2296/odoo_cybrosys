@@ -22,6 +22,7 @@
         <t t-call="portal.portal_searchbar">
             <t t-set="title">Machines</t>
         </t>
+
             <t t-call="portal.portal_table">
             <thead>
                 <tr class="active">
@@ -71,6 +72,7 @@
         </t>
                <t t-foreach="machine" t-as="mac">
                    <h1> <span t-field="mac.name"/> </h1>
+
                    <p>
                        <b>Purchase Date:</b> <span t-field="mac.date_of_purchase"/><br/>
                        <b>Serial No:</b> <span t-field="mac.serial_no"/><br/>

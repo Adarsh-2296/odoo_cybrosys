@@ -1,108 +1,44 @@
-<?xml version="1.0" encoding="UTF-8" ?>
 <templates xml:space="preserve">
-   <t t-name="machine_management.dynamic_filter_template_machine">
-       <section class="categories_section">
-           <div class="container">
-               <h3 class="section_heading">Top Machines</h3>
-               <div class="categories_wrapper" style="display : flex">
-                   <t t-foreach="result" t-as="mac" t-key="mac.id">
-                            <div class="img_wrapper">
-                               <t t-if="mac.image">
-                                   <img t-att-src="'data:image/png;base64,' + mac.image"
-                                        class="img img-fluid rotate-center"
-                                        t-att-alt="mac.name or 'Category Image'"
-                                        loading="lazy"/>
-                               </t>
-                           </div>
-                           <div class="type" style="font-weight: 700; font-size: 20px;">
-                               Machine: <t t-esc="mac.name"/><br/>
-                               Price: <t t-esc="mac.purchase_value"/>
-                           </div>
-                   </t>
-               </div>
-           </div>
-       </section>
-   </t>
+    <t t-name="machine_management.dynamic_filter_template_machine">
+        <div id="course_carousel" class="carousel slide" data-bs-ride="carousel" t-att-data-bs-interval="5000">
+       	<div class="carousel-inner row w-100 mx-auto text-center py-5" role="listbox" aria-label="Carousel">
+                <t t-foreach="result" t-as="chunk" t-key="chunk.id" >
+                	<div t-att-class="chunk.is_active ? 'carousel-item active' : 'carousel-item'" role="option">
+                     	<div class="s_dynamic_snippet_row row g-3">
+                        	<t t-foreach="chunk" t-as="item" t-key="item.id">
+                           	<div class="d-flex flex-grow-0 flex-shrink-0 col-3">
+                               	<div class="oe_product_cart o_carousel_product_card d-flex">
+                                   	<div class="oe_product_image position-relative flex-grow-0 overflow-hidden">
+										<a t-att-href="'/website/machine/home/' + item.id">
+										<t t-if="item.image">
+                                        <img class="card-img-top" t-attf-src="data:image/png;base64,{{item.image}}"
+                                             style="padding: 0px; margin: 0px; height: 180px; width:305px;"/>
+										</t>
+										<t t-else="">
+                            				<div class="bg-light d-flex align-items-center justify-content-center" style="height: 180px;">
+                                				<span class="text-muted">No Image</span>
+											</div>
+                        				</t>
+										 </a>
+										<div class="o_wsale_product_information flex-grow-1 flex-shrink-1">
+                                        	<h5 class="mb-0"><t t-esc="item.name"/></h5>
+										</div>
+                                   	</div>
+                               	</div>
+                           	</div>
+                        	</t>
+                    	</div>
+                	</div>
+            </t>
+        </div>
+        </div>
+        <a t-attf-href="#course_carousel" class="carousel-control-prev position-md-absolute w-auto" data-bs-slide="prev" role="button" aria-label="Previous" title="Previous">
+        	<span class="oi oi-chevron-left ms-md-n4 rounded-pill p-3 bg-700"/>
+			<span class="visually-hidden">Previous</span>
+    	</a>
+ 		<a t-attf-href="#course_carousel" class="carousel-control-next position-md-absolute w-auto" data-bs-slide="next" role="button" aria-label="Next" title="Next">
+        	<span class="oi oi-chevron-right me-md-n4 rounded-pill p-3 bg-700"/>
+        	<span class="visually-hidden">Next</span>
+    	</a>
+    </t>
 </templates>
-<!--<templates xml:space="preserve">-->
-<!--    <t t-name="machine_management.dynamic_filter_template_machine">-->
-<!--        <a t-attf-href="##{unique_id}" class="carousel-control-prev position-md-absolute w-auto" data-bs-slide="prev" role="button" aria-label="Previous" title="Previous">-->
-<!--            <span class="oi oi-chevron-left ms-md-n4 rounded-pill p-3 bg-700"/>-->
-<!--            <span class="visually-hidden">Previous</span>-->
-<!--        </a>-->
-<!--        <div class="categories_wrapper" style="display : flex">&ndash;&gt;-->
-<!--            <t-->
-<!--                t-foreach="result.machine"-->
-<!--                t-as="mac"-->
-<!--                t-key="mac.id"-->
-<!--                data-number-of-elements="4"-->
-<!--                data-number-of-elements-sm="2"-->
-<!--            >-->
-
-<!--                <div t-attf-class="oe_product_image position-relative flex-grow-0 overflow-hidden">-->
-<!--                    <span-->
-<!--                            class="oe_product_image_img h-100 w-100">-->
-<!--                            <img t-att-src="'data:image/png;base64,' + mac.image"-->
-<!--                                     class="oe_product_image_img h-100 w-100"-->
-<!--                                        t-att-alt="mac.name or 'Category Image'"-->
-<!--                                       />-->
-<!--                    </span>-->
-<!--                    <div t-if="is_sample" class="o_ribbon_right small text-bg-primary">Sample</div>-->
-<!--                    </div>-->
-<!--                &lt;!&ndash; Product Name &ndash;&gt;-->
-<!--                                <h6 class="o_wsale_products_item_title text-break">-->
-<!--                                    <a-->
-<!--                                        class="text-decoration-none"-->
-<!--                                        t-att-content="mac.name"-->
-<!--                                        t-att-title="mac.name"-->
-<!--                                        t-out="mac.name"-->
-<!--                                    />-->
-<!--                                </h6>-->
-
-<!--                   </t>-->
-<!--        </div>-->
-<!--        <a t-attf-href="##{unique_id}" class="carousel-control-next position-md-absolute w-auto" data-bs-slide="next" role="button" aria-label="Next" title="Next">-->
-<!--            <span class="oi oi-chevron-right me-md-n4 rounded-pill p-3 bg-700"/>-->
-<!--            <span class="visually-hidden">Next</span>-->
-<!--        </a>-->
-<!--    </t>-->
-<!--</templates>-->
-<!--<templates id="template" xml:space="preserve">-->
-<!--	<t t-name="machine_management.machine_snippet">-->
-<!--    	<div id="course_carousel" class="container carousel slide" data-bs-ride="carousel" t-att-data-bs-interval="interval">-->
-<!--       	<div class="carousel-inner row w-100 mx-auto" role="listbox">-->
-<!--          	<t t-foreach="result.machine" t-as="chunk" t-key="chunk.id">-->
-<!--                	<div t-att-class="chunk.is_active ? 'carousel-item active' : 'carousel-item'">-->
-<!--                     	<div class="row">-->
-<!--                        	<t t-foreach="chunk" t-as="item" t-key="item.id">-->
-<!--                           	<div class="block span3 col-3">-->
-<!--                               	<div class="card-group">-->
-<!--                                   	<div class="card">-->
-<!--										<img class="card-img-top" t-attf-src="data:image/png;base64, + item.image"-->
-<!--                                             	style="padding: 0px; margin: 0px; height: 160px; width:305px;"/>-->
-<!--                                        	<h5 class="mb-0"><t t-esc="item.name"/></h5>-->
-<!--											Price: <t t-esc="item.purchase_value"/>-->
-<!--                                        	<a t-attf-href="/slides/{{item.id}}" class="btn btn-primary">-->
-<!--                                            	Goto Courses-->
-<!--                                        	</a>-->
-<!--                                   	</div>-->
-<!--                               	</div>-->
-<!--                           	</div>-->
-<!--                        	</t>-->
-<!--                    	</div>-->
-<!--                	</div>-->
-<!--          	</t>-->
-<!--      	</div>-->
-<!--    	</div>-->
-<!--    	<a t-attf-href="#course_carousel" class="carousel-control-prev" data-bs-slide="prev" role="button" aria-label="Previous" title="Previous">-->
-<!--        	<span class="fa fa-chevron-circle-left fa-2x"/>-->
-<!--		<span class="visually-hidden">Previous</span>-->
-<!--    	</a>-->
-<!-- 		<a t-attf-href="#course_carousel" class="carousel-control-next" data-bs-slide="next" role="button" aria-label="Next" title="Next">-->
-<!--        	<span class="fa fa-chevron-circle-right fa-2x"/>-->
-<!--        	<span class="visually-hidden">Next</span>-->
-<!--    	</a>-->
-<!--	</t>-->
-<!--</templates>-->
-
-
