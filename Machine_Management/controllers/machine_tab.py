@@ -22,3 +22,6 @@ class CreateService(http.Controller):
         }
 
         return request.render('machine_management.website_machine_details',datas)
+
+
+

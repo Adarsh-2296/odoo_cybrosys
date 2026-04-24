@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+<template id="website_machine_home_details" name="Machine Details Form">
+           <t t-call="website.layout">
+               <div class="container" style="box-shadow: 5px 10px lightblue; border: 1px ;  text-align: center; border: 50px; ">
+               <t t-foreach="machine" t-as="mac">
+                   <h1> <span t-field="mac.name"/> </h1>
+                   <p>
+                       <b>Purchase Date:</b> <span t-field="mac.date_of_purchase"/><br/>
+                       <b>Serial No:</b> <span t-field="mac.serial_no"/><br/>
+                       <b>Price:</b> <span t-field="mac.purchase_value"/><br/>
+                       <b>Status:</b> <span t-field="mac.state"/><br/>
+                       <img t-att-src="image"/>
+                   </p>
+                   <a class="gohome" href="/" style="background-color: #f44336; color: white; padding: 14px 25px; text-align: center; text-decoration: none; display: inline-block;">Home</a>
+                   <a style="background-color: #f44336; color: white; padding: 14px 25px; text-align: center; text-decoration: none; display: inline-block;" class="gohome" t-att-href="'/odoo/action-412/' + str(mac.id)" t-att-title="mac.name">
+                       <t t-out="mac.name"/>
+                   </a>
+               </t>
+               </div>
+           </t>
+    </template>
+</odoo>
