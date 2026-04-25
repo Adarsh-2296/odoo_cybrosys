@@ -3,7 +3,7 @@ from odoo.http import request
 
 
 class CreateService(http.Controller):
-    @http.route(['/website/service/form'], type='http', auth="public", website=True)
+    @http.route(['/website/service/form/<int:machine_id>'], type='http', auth="public", website=True)
     def website_machine_service_form(self, **kw):
         machines = self.env['machine.management'].sudo().search([])
         partner = self.env['res.partner'].sudo().search([])

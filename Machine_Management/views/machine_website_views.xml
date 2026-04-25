@@ -1,23 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 <template id="website_machine_home_details" name="Machine Details Form">
-           <t t-call="website.layout">
-               <div class="container" style="box-shadow: 5px 10px lightblue; border: 1px ;  text-align: center; border: 50px; ">
-               <t t-foreach="machine" t-as="mac">
-                   <h1> <span t-field="mac.name"/> </h1>
-                   <p>
-                       <b>Purchase Date:</b> <span t-field="mac.date_of_purchase"/><br/>
-                       <b>Serial No:</b> <span t-field="mac.serial_no"/><br/>
-                       <b>Price:</b> <span t-field="mac.purchase_value"/><br/>
-                       <b>Status:</b> <span t-field="mac.state"/><br/>
-                       <img t-att-src="image"/>
-                   </p>
-                   <a class="gohome" href="/" style="background-color: #f44336; color: white; padding: 14px 25px; text-align: center; text-decoration: none; display: inline-block;">Home</a>
-                   <a style="background-color: #f44336; color: white; padding: 14px 25px; text-align: center; text-decoration: none; display: inline-block;" class="gohome" t-att-href="'/odoo/action-412/' + str(mac.id)" t-att-title="mac.name">
-                       <t t-out="mac.name"/>
-                   </a>
-               </t>
-               </div>
-           </t>
-    </template>
+    <t t-call="website.layout">
+        <div class="js_sale ecom-zoomable">
+            <section class="oe_website_sale mt-1 mt-lg-2 mb-5 discount o_wsale_container_lg container-lg o_wsale_product_page_opt_image_width_50_pc o_wsale_product_page_opt_image_ratio_1_1 o_wsale_product_page_opt_image_ratio_mobile_auto o_wsale_product_page_opt_image_radius_none o_wsale_product_page_opt_separators">
+        <div class="row align-items-lg-start" data-image_layout="carousel">
+            <div class="o_wsale_product_images col o_wsale_sticky_object" style="top: 74px;">
+                <div class="o_carousel_not_single carousel slide mb-3 overflow-hidden o_carousel_product_left_indicators d-flex" data-name="Product Carousel">
+                    <div class="o_carousel_product_outer carousel-outer position-relative d-flex align-items-center w-100 overflow-hidden">
+                        <span class="o_ribbons  z-1" style=""></span>
+                        <div class="carousel-inner h-100">
+                            <div class="carousel-item h-100 w-100 text-center active" style="min-height: 571px;">
+                                <span class="o_ribbons o_not_editable  z-1" style=""></span>
+                                <div class="d-flex align-items-center justify-content-center h-100 o_product_detail_img_wrapper oe_unmovable">
+                                    <img t-att-src="image" class="img img-fluid oe_unmovable product_detail_img w-100 h-100"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="position-relative position-lg-sticky o_wsale_sticky_object col" style="top: 74px;">
+                <div class="js_product js_main_product o_wsale_content_contained container">
+                    <t t-foreach="machine" t-as="mac">
+                    <form>
+                        <div class="o_wsale_product_details_content_section o_wsale_product_details_content_section_title mb-3">
+                            <h1 class="h3 mb-3" ><span t-field="mac.name"/></h1>
+                        </div>
+                        <div class="o_wsale_product_details_content_section o_wsale_product_details_content_section_price mb-4">
+                            <div class="product_price d-inline-block decimal_precision">
+                                <div class="css_editable_mode_hidden d-flex align-items-baseline justify-content-end gap-2 flex-wrap h5 mb-0 text-wrap">
+                                    <span class="oe_price" style="white-space: nowrap;" data-oe-type="monetary" t-field="mac.purchase_value"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <small class="text-muted mb-0">
+                            <span t-field="mac.description"/>
+                        </small>
+                        <div class="o_wsale_product_details_content_section o_wsale_product_details_content_section_cta mb-4">
+                            <div class="d-flex flex-wrap align-items-center gap-2 mb-4 w-100 w-lg-auto ">
+                                <div class="d-flex flex-grow-1 flex-lg-grow-0 flex-wrap align-items-center gap-2 d-inline-flex">
+                                    <a role="button" href="/" data-oe-model="ir.ui.view" class="btn btn-primary js_check_product a-submit flex-grow-1" >
+                                        Home
+                                    </a>
+                                    <a role="button" t-att-href="'/odoo/action-412/' + str(mac.id)" data-oe-model="ir.ui.view" class="btn btn-primary js_check_product a-submit flex-grow-1" >
+                                        Backend
+                                    </a>
+                                    <a role="button" t-att-href="'/website/service/form/' + str(mac.id)" data-oe-model="ir.ui.view" class="btn btn-primary js_check_product a-submit flex-grow-1" >
+                                        Create Service
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                    </t>
+                </div>
+            </div>
+        </div>
+            </section>
+        </div>
+    </t>
+</template>
 </odoo>
