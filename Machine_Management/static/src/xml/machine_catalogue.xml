@@ -1,6 +1,6 @@
 <templates xml:space="preserve">
     <t t-name="machine_management.dynamic_filter_template_machine">
-        <div id="course_carousel" class="carousel slide" data-bs-ride="carousel" t-att-data-bs-interval="5000">
+        <div t-att-id="id" class="carousel slide" data-bs-ride="carousel" t-att-data-bs-interval="5000">
        	<div class="carousel-inner row w-100 mx-auto text-center py-5" role="listbox" aria-label="Carousel">
                 <t t-foreach="result" t-as="chunk" t-key="chunk.id" >
                 	<div t-att-class="chunk.is_active ? 'carousel-item active' : 'carousel-item'" role="option">
@@ -32,11 +32,11 @@
             </t>
         </div>
         </div>
-        <a t-attf-href="#course_carousel" class="carousel-control-prev position-md-absolute w-auto" data-bs-slide="prev" role="button" aria-label="Previous" title="Previous">
+        <a t-attf-href="##{id}" class="carousel-control-prev position-md-absolute w-auto" data-bs-slide="prev" role="button" aria-label="Previous" title="Previous">
         	<span class="oi oi-chevron-left ms-md-n4 rounded-pill p-3 bg-700"/>
 			<span class="visually-hidden">Previous</span>
     	</a>
- 		<a t-attf-href="#course_carousel" class="carousel-control-next position-md-absolute w-auto" data-bs-slide="next" role="button" aria-label="Next" title="Next">
+ 		<a t-attf-href="##{id}" class="carousel-control-next position-md-absolute w-auto" data-bs-slide="next" role="button" aria-label="Next" title="Next">
         	<span class="oi oi-chevron-right me-md-n4 rounded-pill p-3 bg-700"/>
         	<span class="visually-hidden">Next</span>
     	</a>
