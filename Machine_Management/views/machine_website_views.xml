@@ -23,7 +23,13 @@
             <div class="position-relative position-lg-sticky o_wsale_sticky_object col" style="top: 74px;">
                 <div class="js_product js_main_product o_wsale_content_contained container">
                     <t t-foreach="machine" t-as="mac">
+                        <script>
+                            function myFunction() {
+                            document.getElementById("demo").innerHTML = "Hello World";
+                            }
+                        </script>
                     <form>
+                        <p id="demo"></p>
                         <div class="o_wsale_product_details_content_section o_wsale_product_details_content_section_title mb-3">
                             <h1 class="h3 mb-3" ><span t-field="mac.name"/></h1>
                         </div>
@@ -46,7 +52,7 @@
                                     <a role="button" t-att-href="'/odoo/action-412/' + str(mac.id)" data-oe-model="ir.ui.view" class="btn btn-primary js_check_product a-submit flex-grow-1" >
                                         Backend
                                     </a>
-                                    <a role="button" t-att-href="'/website/service/form/' + str(mac.id)" data-oe-model="ir.ui.view" class="btn btn-primary js_check_product a-submit flex-grow-1" >
+                                    <a id="create_service" role="button"  t-att-href="'/website/service/form/' + str(mac.id)" data-oe-model="ir.ui.view" class="btn btn-primary js_check_product a-submit flex-grow-1" >
                                         Create Service
                                     </a>
                                 </div>

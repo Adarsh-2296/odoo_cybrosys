@@ -16,10 +16,8 @@
                     <div class="row">
                         <div class="col-lg-7 mt-4 mt-lg-0">
                             <br/><br/>
-
                                     Create a service request for your machine through our website.<br/>
                                     Fill out the details and Submit, Done!
-
                 <section class="container py-5">
                     <div class="container">
                     <form id="service_form" action="/website/service/create" method="post" class="o_mark_required" data-mark="*" >
@@ -29,8 +27,13 @@
                             <span class="s_website_form_label_content">Machine</span>
                             <span class="s_website_form_mark"> *</span>
                         </label>
-                        <select required="" name="machine"  class="form-control s_website_form_input">
-                            <option></option>
+                        <select required="" name="machine"  class="form-control s_website_form_input" >
+                            <t t-if="machine_id">
+                            <option t-att-value="machine_id.id" t-out="machine_id.name"></option>
+                            </t>
+                            <t t-else="">
+                                <option></option>
+                            </t>
                             <option t-foreach="machine" t-as="mac" t-att-value="mac['id']" t-out="mac['name']"/>
                         </select>
                     </div>
@@ -39,7 +42,7 @@
                             <span class="s_website_form_label_content">Customer</span>
                             <span class="s_website_form_mark"> *</span>
                         </label>
-                        <select required="" name="partner" class="form-control s_website_form_input">
+                        <select required="" name="partner" class="form-control s_website_form_input" >
                             <option></option>
                             <option t-foreach="partner" t-as="cus" t-att-value="cus['id']" t-out="cus['name']"/>
                         </select>

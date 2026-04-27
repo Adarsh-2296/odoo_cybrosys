@@ -10,12 +10,10 @@ publicWidget.registry.get_product_tab = publicWidget.Widget.extend({
        let chunks =[]
        const date = new Date();
        let ms = date.getUTCMilliseconds();
-       console.log(ms)
        let length = Math.ceil(result['machine'].length/4)
        for(let i=0; i<length;i++){
             chunks.push(result['machine'].splice(0,4));
        }
-       console.log(chunks)
         	chunks[0].is_active = true
        if(chunks){
        this.$el.find('#courosel').html(
@@ -25,8 +23,6 @@ publicWidget.registry.get_product_tab = publicWidget.Widget.extend({
             })
         );
         	}
-
-
    },
 });
 
