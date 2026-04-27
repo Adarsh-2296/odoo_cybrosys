@@ -10,7 +10,6 @@ class WebsiteProduct(http.Controller):
        values = {
            'machine': machine,
        }
-       print(self)
        return values
 
    @http.route(['/website/machine/home/<int:machine_id>'], type='http', auth="public", website=True)
@@ -21,5 +20,4 @@ class WebsiteProduct(http.Controller):
            'image': image,
            'machine': machine,
        }
-
        return request.render('machine_management.website_machine_home_details', datas)
