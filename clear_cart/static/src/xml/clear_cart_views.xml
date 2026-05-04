@@ -1,20 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<odoo>
-    <template id="clear_cart" inherit_id="website_sale.cart_lines" name="Clear Cart">
+<templates xml:space="preserve">
+    <t t-name="clear_cart.clear_shopping_cart" inherit_id="website_sale.cart_lines" t-inherit-mode="extension">
         <div id="cart_products" position="inside">
             <div class="o_cart_line">
-            <a  role="button" href="#"  data-oe-model="ir.ui.view" class="btn btn-primary js_check_product a-submit flex-grow-1" >
-                Clear Shopping Cart
-            </a>
-            <a
-                    href='#'
-                    class="js_delete_product small"
-                    aria-label="Remove from cart"
-                    title="Remove from cart"
-            >
-                Remove
-            </a>
+            <button class="btn btn-primary" t-on-click="actionClearCart">Clear Shopping Cart
+           </button>
         </div>
         </div>
-    </template>
-</odoo>
+    </t>
+</templates>
