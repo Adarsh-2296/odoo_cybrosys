@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <template id="clear_cart" inherit_id="website_sale.cart_lines" name="Clear Cart">
+        <div id="cart_products" position="inside">
+            <div class="o_cart_line">
+            <a
+                    role="button"
+                    href="/shop/cart/removeall"
+                    class="btn btn-primary"
+                >
+                    Clear Shopping Cart
+            </a>
+        </div>
+        </div>
+    </template>
+</odoo>

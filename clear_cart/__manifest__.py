@@ -15,10 +15,4 @@
     'data': [
         'views/clear_cart_views.xml',
     ],
-'assets': {
-        'web.assets_frontend': [
-            'clear_cart/static/src/js/clear_shopping_cart.js',
-            'clear_cart/static/src/xml/clear_cart_views.xml',
-       ],
-    },
 }
