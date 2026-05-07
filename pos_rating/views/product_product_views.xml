@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="product_product_inherited_view_form_pos_rating" model="ir.ui.view">
+        <field name="name">product.product.inherited.view.form.pos.rating</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='general_information']" position="inside">
+                <div>
+                    <group>
+                        <field name="pos_rating"/>
+                    </group>
+
+                </div>
+            </xpath>
+        </field>
+    </record>
+
+    <record id="pos_product_inherited_view_form_pos_rating" model="ir.ui.view">
+        <field name="name">pos.product.inherited.view.form.pos.rating</field>
+        <field name="model">product.template</field>
+        <field name="inherit_id" ref="point_of_sale.product_template_view_form_normalized_pos"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='color']" position="after">
+                <div>
+                    <group>
+                        <field name="pos_rating"/>
+                    </group>
+
+                </div>
+            </xpath>
+        </field>
+    </record>
+</odoo>
