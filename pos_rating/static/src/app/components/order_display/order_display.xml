@@ -1,10 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates id="template" xml:space="preserve">
-    <t t-name="pos_rating.OrderDisplay" t-inherit="point_of_sale.OrderDisplay" t-inherit-mode="extension">
-        <xpath expr="(//div[hasclass('order-container')]/t[@t-foreach='lines'])[1]" position="inside">
-            <span t-out="line.name">
-                Hello
-            </span>
-        </xpath>
+    <t t-name="pos_rating.OrderDisplay" t-inherit="point_of_sale.Orderline" t-inherit-mode="extension">
+        <div class="line-details d-flex justify-content-between" position="after">
+            <span t-esc="PosRatingOrder"/>
+        </div>
     </t>
 </templates>
