@@ -5,7 +5,11 @@ import { patch } from "@web/core/utils/patch";
 patch(ProductCard.prototype, {
    get PosRating(){
        var pos_rating = this.props.product.pos_rating;
-       return pos_rating
+       let result = []
+       for(var i =1;i<=pos_rating;i++){
+           result.push(i)
+       }
+       return result
    },
 });
 
