@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="pos_rating.OrderReceipt" t-inherit="point_of_sale.OrderReceipt" t-inherit-mode="extension">
+        <div class="pos-receipt-amount receipt-total fw-bolder" position="before">
+                <span class="s_rating_active_icons" style="color: #f3cc00;">
+                    <i  class="fa fa-star" role="presentation"></i>
+                </span>
+                <span t-esc="PosRatingReceipt"/>
+            </div>
+    </t>
+</templates>

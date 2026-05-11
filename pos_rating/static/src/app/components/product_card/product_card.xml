@@ -2,9 +2,11 @@
 <templates id="template" xml:space="preserve">
     <t t-name="pos_rating.ProductCard" t-inherit="point_of_sale.ProductCard" t-inherit-mode="extension">
         <xpath expr="//div[hasclass('product-img')]" position="inside">
-            <span class="js_product_pos_rating position-absolute top-0 end-0 m-1 px-2 rounded text-black fs-5 fw-bolder"
-                  t-esc="PosRating"
-            />
+            <div class="js_product_pos_rating position-absolute top-0 end-0 m-1 px-2 rounded text-black fs-5 fw-bolder">
+                <span class="s_rating_active_icons" style="color: #f3cc00;">
+                    <i t-foreach="PosRating" t-as="abc" t-key="abc" class="fa fa-star" role="presentation"></i>
+                </span>
+            </div>
         </xpath>
     </t>
 </templates>

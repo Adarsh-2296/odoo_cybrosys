@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates id="template" xml:space="preserve">
     <t t-name="pos_rating.OrderDisplay" t-inherit="point_of_sale.Orderline" t-inherit-mode="extension">
-        <div class="line-details d-flex justify-content-between" position="after">
-            <span t-esc="PosRatingOrder"/>
-        </div>
+        <ul class="info-list d-flex flex-column mb-0 ms-2"  position="inside">
+            <li>
+            <span class="s_rating_active_icons" style="color: #f3cc00;">
+                    <i t-foreach="PosRatingOrder" t-as="abc" t-key="abc" class="fa fa-star" role="presentation"></i>
+            </span>
+            </li>
+        </ul>
     </t>
 </templates>
