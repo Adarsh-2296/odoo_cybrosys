@@ -3,12 +3,15 @@ import { patch } from "@web/core/utils/patch";
 
 patch(OrderReceipt.prototype, {
    get PosRatingReceipt(){
-       let pos_rating = this.props.order
-       console.log(pos_rating)
+       let products = this.props.order._prices.original.baseLines
        let result = []
-       for(var i =1;i<=4;i++){
+       for(var i =0;i<products.length;i++){
            result.push(i)
        }
-       return result
+       let datas = {
+           "products" : products,
+           "result" : result,
+       }
+       return datas
    },
 });
