@@ -2,10 +2,28 @@
 <templates id="template" xml:space="preserve">
     <t t-name="pos_rating.OrderReceipt" t-inherit="point_of_sale.OrderReceipt" t-inherit-mode="extension">
         <div class="pos-receipt-amount receipt-total fw-bolder" position="before">
-                <span class="s_rating_active_icons" style="color: #f3cc00;">
-                    <i  class="fa fa-star" role="presentation"></i>
-                </span>
-                <span t-esc="PosRatingReceipt"/>
-            </div>
+            <span class="s_rating_active_icons" style="color: #f3cc00;">
+
+            </span>
+            <table border="3">
+                <thead>
+                    <tr style="border-bottom:2px solid #ddd;">
+                        <th style="border-right:2px solid #ddd;">Product</th>
+                        <th>Rating</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr t-foreach="PosRatingReceipt['products']" t-as="product" t-key="product.product_id.id" style="border-bottom:1px solid #ddd;">
+                        <td t-out="product.product_id.name" style="border-right:2px solid #ddd;"></td>
+                        <t t-if="product.product_id.pos_rating == '5'" t-set="variable" t-value="[1,2,3,4,5]"/>
+                        <t t-elif="product.product_id.pos_rating == '4'" t-set="variable" t-value="[1,2,3,4]"/>
+                        <t t-elif="product.product_id.pos_rating == '3'" t-set="variable" t-value="[1,2,3]"/>
+                        <t t-elif="product.product_id.pos_rating == '2'" t-set="variable" t-value="[1,2]"/>
+                        <t t-else="" t-set="variable" t-value="[1]"/>
+                        <td> <i t-foreach="variable" t-as="i" t-key="i" class="fa fa-star" role="presentation" style="color: #f3cc00;"></i></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </t>
 </templates>
