@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="pos_rating_config_view_form_inherit_restrict_payment" model="ir.ui.view">
+        <field name="name">pos.rating.config.view.form.inherit.restrict.payment</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//form" position="inside">
+                    <block title="Payment" name="limit_user_tasks">
+                        <group>
+                            <setting id="is_restrict_payment" help="Enable payment restriction for the users based on the order line and product ratings" >
+                                <field name="is_restrict_payment" />
+                            </setting>
+                        </group>
+                    </block>
+            </xpath>
+        </field>
+    </record>
+</odoo>

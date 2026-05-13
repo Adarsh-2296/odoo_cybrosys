@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="pos_rating.PopupPos">
+        <Dialog title.translate="Popup-Alert">
+            <div class="modal-body custom-form-view">
+               <form>
+                   <h1 t-out="props.title"/>
+                   <p t-out="props.body"/>
+               </form>
+                <Dropdown>
+                    <button class="btn btn-primary">Click For DropDown</button>
+                                <t t-set-slot="content">
+                                    <DropdownItem onSelected="() => this.forcepay()">
+                                        Force Payment
+                                    </DropdownItem>
+                                    <DropdownItem onSelected="() => this.cancel()">
+                                        Cancel
+                                    </DropdownItem>
+                                </t>
+                </Dropdown>
+            </div>
+            <t t-set-slot="footer">
+                <button class="btn btn-primary o-default-button" t-on-click="confirm">Ok</button>
+            </t>
+        </Dialog>
+    </t>
+</templates>

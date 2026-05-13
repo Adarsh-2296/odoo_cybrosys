@@ -14,6 +14,7 @@
     'depends': ['point_of_sale','base'],
     'data': [
         'views/product_product_views.xml',
+        'views/res_config_settings.xml',
     ],
 'assets': {
         'point_of_sale._assets_pos': [
