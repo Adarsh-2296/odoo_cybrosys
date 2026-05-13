@@ -10,7 +10,6 @@
                     <group>
                         <field name="product_pos_rating"/>
                     </group>
-
                 </div>
             </xpath>
         </field>
