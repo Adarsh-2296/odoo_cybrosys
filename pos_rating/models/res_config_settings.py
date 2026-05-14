@@ -4,4 +4,5 @@ from odoo import fields, models
 class ResConfigSettings(models.TransientModel):
     _inherit = 'res.config.settings'
 
-    is_restrict_payment = fields.Boolean(config_parameter="pos_rating.is_restrict_payment",string="Restrict Payment")
+    pos_is_restrict_payment = fields.Boolean(related='pos_config_id.is_restrict_payment', readonly=False)
+
