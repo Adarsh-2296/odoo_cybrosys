@@ -9,7 +9,7 @@
                         <group>
                             <setting id="pos_is_restrict_payment" help="Enable discount limit for pos categories" >
                                 <field name="pos_is_discount_limit" />
-                                <field name="pos_category_id" widget="many2many_tags" invisible="not pos_is_discount_limit"/>
+                                <field name="pos_category_ids" widget="many2many_tags" invisible="not pos_is_discount_limit"/>
                             </setting>
                         </group>
             </xpath>
