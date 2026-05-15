@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from odoo import fields, models
+from odoo import fields, models, api
 
 class PosCategory(models.Model):
     _inherit = 'pos.category'
@@ -8,6 +8,17 @@ class PosCategory(models.Model):
     is_discount_limit = fields.Boolean(string="Discount Limit",compute="_compute_is_discount_limit")
 
     def _compute_is_discount_limit(self):
-        """To get the value of the field(order_line_limit) in the settings of purchase """
-        pos_category_id = self.env['ir.config_parameter'].sudo().get_param('pos_category_wise_discount.pos_category_id')
-        pos_is_discount_limit = self.env['ir.config_parameter'].sudo().get_param('pos_category_wise_discount.pos_is_discount_limit')
+        self.is_discount_limit = False
+        shops = self.env['pos.config'].search([])
+        category = shops.mapped('pos_category_ids.id')
+        if self.id in category:
+            self.is_discount_limit = True
+
+    @api.model
+    def _load_pos_data_fields(self, config_id):
+        """
+        Adds the 'pos_rating' field to the list of fields loaded into the POS.
+        """
+        data = super()._load_pos_data_fields(config_id)
+        data += ['discount_limit']
+        return data
