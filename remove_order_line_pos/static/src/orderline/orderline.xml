@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="remove_order_line_pos.Orderline" t-inherit="point_of_sale.Orderline" t-inherit-mode="extension">
+        <ul class="info-list d-flex flex-column mb-0 ms-2"  position="inside">
+            <li t-if="this.is_clear_order_line_button">
+                <button class="btn btn-danger" t-on-click="() => this.removeLine()"><i class="oi-close"></i></button>
+            </li>
+        </ul>
+    </t>
+</templates>
