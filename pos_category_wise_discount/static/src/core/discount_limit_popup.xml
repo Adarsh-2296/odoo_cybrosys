@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates id="template" xml:space="preserve">
+    <t t-name="pos_category_wise_discount.DiscountLimitPopup">
+        <Dialog title.translate="Discount Limit-Alert">
+            <div class="modal-body custom-form-view">
+               <form>
+                   <h1 t-out="props.title"/>
+                   <p t-out="props.body"/>
+               </form>
+                <t t-foreach="props.lines" t-as="product" t-key="product.id">
+                    <span>The discount limit for the POS Category </span> <span t-out="product.product_tmpl_id.pos_categ_ids[0].name"/> <span> is </span>
+                    <span t-out="product.product_tmpl_id.pos_categ_ids[0].discount_limit"/>
+                    <span> percentage, But the given discount is </span> <span t-out="props.discount"/> <span> percentage. The limit is exceeded by </span>
+                    <span t-out="props.discount - product.product_tmpl_id.pos_categ_ids[0].discount_limit"/> <span> percentage.</span><br/>
+                </t>
+
+            </div>
+            <t t-set-slot="footer">
+                <button class="btn btn-primary o-default-button" t-on-click="confirm">Ok</button>
+            </t>
+        </Dialog>
+    </t>
+</templates>
