@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<templates>
+   <t t-name="inventory_dashboard.InventoryDashboard">
+       <div>
+           <div>
+               <center>
+                   <h1 style="margin:20px;">Inventory Dashboard</h1>
+               </center>
+           </div>
+           <div id="opportunity" class="col-md-4 col-sm-6 tot_tasks oh-payslip"
+        style=" overflow: hidden; padding-top: 30px;">
+       <div class="oh-card" style="box-shadow:2px 4px 8px 2px rgba(0,0,0.3,0.2);
+       display: flex; justify-content: center;" role="button">
+           <div class="oh-card-body"
+                style="padding: 5px 5px; float: left; width: 100%;
+                 height: auto; box-sizing: border-box; margin: 0;">
+               <div class="stat-widget-one">
+                   <div class="stat-icon bg-mauve-light d-flex justify-content-left align-items-left">
+                       <div class="stat-content" style="
+                         text-align: center; font-weight: bold;
+                         padding-top: 20px; padding-left: 80px;">
+                           <div class="stat_count_opp"
+                                style="font-size: 17px;">
+                               <span id="templates">
+                                   <table id="inventory_data">
+
+                                   </table>
+                               </span>
+                           </div>
+                           <div class="stat-head"
+                                style="font-size: 14px;">Test
+                           </div>
+                       </div>
+                   </div>
+               </div>
+           </div>
+       </div>
+   </div>
+       </div>
+   </t>
+</templates>
