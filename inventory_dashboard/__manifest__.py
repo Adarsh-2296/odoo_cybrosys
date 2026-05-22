@@ -11,7 +11,7 @@
     'installable': True,
     'application': True,
     'auto_install': True,
-    'depends': ['stock'],
+    'depends': ['stock','spreadsheet'],
     'data': [
         'views/inventory_dashboard_views.xml',
     ],

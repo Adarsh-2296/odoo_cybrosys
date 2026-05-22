@@ -1,18 +1,42 @@
 /** @odoo-module **/
 import { registry } from "@web/core/registry";
-import { Component } from "@odoo/owl";
+import {Component, useState} from "@odoo/owl";
 import { useService } from "@web/core/utils/hooks";
 import { loadJS } from "@web/core/assets";
+import { Dropdown } from "@web/core/dropdown/dropdown";
+import { DateTimeInput } from "@web/core/datetime/datetime_input";
+import { DropdownItem } from "@web/core/dropdown/dropdown_item";
 
 const actionRegistry = registry.category("actions");
 class InventoryDashboard extends Component {
+    static components = { Dropdown, DateTimeInput, DropdownItem };
     setup() {
         super.setup();
-        this.orm = useService('orm');
+        this.orm = useService('orm')
+        this.state = useState({
+            selectedyear : 2026,
+            selectedmonth : String,
+            filter : false,
+        });
         this._fetch_data();
   }
+  async getYear(){
+        console.log(this.state.selectedyear,this.state.selectedmonth)
+        this.state.filter = true
+        this._fetch_data()
+  }
+  async getMonth(){
+        console.log(this.state.selectedmonth,this.state.selectedyear)
+        this.state.filter = true
+        this._fetch_data()
+  }
   async _fetch_data(){
-        let result = await this.orm.call("stock.picking", "get_tiles_data", [], {});
+        if (this.state.filter == false) {
+            var result = await this.orm.call("stock.picking", "get_tiles_data", [], {'month' : false, 'year': false});
+        }
+        else{
+            var result = await this.orm.call("stock.picking", "get_tiles_data", [], {'month' : this.state.selectedmonth, 'year': this.state.selectedyear});
+        }
         await  loadJS(["/web/static/lib/Chart/Chart.js"]);
         var incoming = document.getElementById('incoming_data').getContext('2d');
         var myChart = new Chart(incoming, {
@@ -249,4 +273,4 @@ class InventoryDashboard extends Component {
     }
 }
 InventoryDashboard.template = "inventory_dashboard.InventoryDashboard";
-actionRegistry.add("inventory_dashboard_tag", InventoryDashboard);
+actionRegistry.add("stock_dashboard_tag", InventoryDashboard);

@@ -1,15 +1,34 @@
+import datetime
 from odoo import models, api
 
 class StockPicking(models.Model):
    _inherit = 'stock.picking'
    @api.model
-   def get_tiles_data(self):
+   def get_tiles_data(self,month,year):
        company_id = self.env.company
-       stock = self.search([('company_id', '=', company_id)])
+       if month and year:
+           date_1 = datetime.date(int(year),int(month),1)
+           if int(month) == 2:
+               date_31 = datetime.date(int(year), int(month), 28)
+           elif int(month) in [4,6,9,11]:
+               date_31 = datetime.date(int(year), int(month), 30)
+           else:
+               date_31 = datetime.date(int(year), int(month), 31)
+           if self.env.user.role == "group_system":
+                stock = self.search([('company_id', '=', company_id),('scheduled_date', '>', date_1),('scheduled_date', '<', date_31)])
+           else:
+                stock = self.search([('company_id', '=', company_id),('user_id', '=', self.env.user.id),('scheduled_date', '>', date_1),('scheduled_date', '<', date_31)])
+       else:
+           if self.env.user.role == "group_system":
+                stock = self.search([('company_id', '=', company_id)])
+           else:
+                stock = self.search([('company_id', '=', company_id)])
 
+       print(stock.mapped('scheduled_date'))
        """Location wise"""
        location_id = self.env['stock.location'].search([('company_id', '=', company_id)])
        location = {}
+
        for i in location_id:
            value = i.mapped('quant_ids.product_id.name')
            location.update({i.name: len(value)})
@@ -19,14 +38,11 @@ class StockPicking(models.Model):
        """Group based on picking type"""
        picking_type_id = self.env['stock.picking.type'].search([('company_id', '=', company_id)])
        picking_type_dict = {}
-       print(picking_type_id)
        for i in picking_type_id:
            value = stock.filtered(lambda j: j.picking_type_id.id == i.id)
            picking_type_dict.update({i.warehouse_id.name + ' : ' + i.name : len(value)})
        picking_type_name = list(picking_type_dict.keys())
        picking_type_count = list(picking_type_dict.values())
-       print(picking_type_name)
-       print(picking_type_count)
 
        """incoming and outgoing"""
        incoming = stock.filtered(lambda i: i.picking_type_code == "incoming")
@@ -104,4 +120,6 @@ class StockPicking(models.Model):
                 'product_avg_cost' : product_avg_cost,
                 'product_val_names' : product_val_names,
                 'product_val_avg_cost' : product_val_avg_cost,
+                'location_id' : location_id,
                }
+
