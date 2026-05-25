@@ -4,10 +4,18 @@ from odoo import models, api
 class StockPicking(models.Model):
    _inherit = 'stock.picking'
    @api.model
-   def get_tiles_data(self,month,year):
+   def get_tiles_data(self,month,year,week):
+       """To get the data and pass it to the js, for displaying them as charts"""
        company_id = self.env.company
-       if month and year:
+       product_ids = self.env['product.product'].search([('type','=','consu')]).sorted('id', reverse=True)
+       all_products = product_ids.mapped('name')
+       print(product_ids[0:10])
+
+       if month and year and week:
            date_1 = datetime.date(int(year),int(month),1)
+           date_7 = datetime.date(int(year),int(month),7)
+           date_14 = datetime.date(int(year),int(month),14)
+           date_21 = datetime.date(int(year),int(month),21)
            if int(month) == 2:
                date_31 = datetime.date(int(year), int(month), 28)
            elif int(month) in [4,6,9,11]:
@@ -15,20 +23,51 @@ class StockPicking(models.Model):
            else:
                date_31 = datetime.date(int(year), int(month), 31)
            if self.env.user.role == "group_system":
-                stock = self.search([('company_id', '=', company_id),('scheduled_date', '>', date_1),('scheduled_date', '<', date_31)])
+               """Stock Week wise filtering"""
+               if week == '1':
+                    stock = self.search([('company_id', '=', company_id),('scheduled_date', '>', date_1),('scheduled_date', '<', date_7)])
+               elif week == '2':
+                   stock = self.search([('company_id', '=', company_id), ('scheduled_date', '>', date_1),('scheduled_date', '<', date_14)])
+               elif week == '3':
+                   stock = self.search([('company_id', '=', company_id), ('scheduled_date', '>', date_1),('scheduled_date', '<', date_21)])
+               else:
+                   stock = self.search([('company_id', '=', company_id), ('scheduled_date', '>', date_1),('scheduled_date', '<', date_31)])
            else:
-                stock = self.search([('company_id', '=', company_id),('user_id', '=', self.env.user.id),('scheduled_date', '>', date_1),('scheduled_date', '<', date_31)])
+               if week == '1':
+                   stock = self.search([('user_id', '=', self.env.user.id),('company_id', '=', company_id), ('scheduled_date', '>', date_1),
+                                        ('scheduled_date', '<', date_7)])
+               elif week == '2':
+                   stock = self.search([('user_id', '=', self.env.user.id),('company_id', '=', company_id), ('scheduled_date', '>', date_1),
+                                        ('scheduled_date', '<', date_14)])
+               elif week == '3':
+                   stock = self.search([('user_id', '=', self.env.user.id),('company_id', '=', company_id), ('scheduled_date', '>', date_1),
+                                        ('scheduled_date', '<', date_21)])
+               else:
+                   stock = self.search([('user_id', '=', self.env.user.id),('company_id', '=', company_id), ('scheduled_date', '>', date_1),
+                                        ('scheduled_date', '<', date_31)])
+       elif month and year:
+           date_1 = datetime.date(int(year), int(month), 1)
+           if int(month) == 2:
+               date_31 = datetime.date(int(year), int(month), 28)
+           elif int(month) in [4, 6, 9, 11]:
+               date_31 = datetime.date(int(year), int(month), 30)
+           else:
+               date_31 = datetime.date(int(year), int(month), 31)
+           if self.env.user.role == "group_system":
+               stock = self.search(
+                   [('company_id', '=', company_id), ('scheduled_date', '>', date_1), ('scheduled_date', '<', date_31)])
+           else:
+               stock = self.search([('company_id', '=', company_id), ('user_id', '=', self.env.user.id),
+                                    ('scheduled_date', '>', date_1), ('scheduled_date', '<', date_31)])
        else:
            if self.env.user.role == "group_system":
                 stock = self.search([('company_id', '=', company_id)])
            else:
                 stock = self.search([('company_id', '=', company_id)])
 
-       print(stock.mapped('scheduled_date'))
        """Location wise"""
        location_id = self.env['stock.location'].search([('company_id', '=', company_id)])
        location = {}
-
        for i in location_id:
            value = i.mapped('quant_ids.product_id.name')
            location.update({i.name: len(value)})
@@ -121,5 +160,6 @@ class StockPicking(models.Model):
                 'product_val_names' : product_val_names,
                 'product_val_avg_cost' : product_val_avg_cost,
                 'location_id' : location_id,
+                'products' : all_products,
                }
 

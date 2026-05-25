@@ -3,10 +3,13 @@
    <t t-name="inventory_dashboard.InventoryDashboard">
        <div style="overflow-y : scroll; overflow-x : scroll; width: 1600px;
             height: 900px;">
-                   <div class="d-flex justify-content-between" style="width:300px;" >
-                       <input t-model="this.state.selectedyear" type="number" min="1900" max="2099" step="1" value="2026" t-on-change="() => this.getYear(this.value)"/>
-                       <select t-model="this.state.selectedmonth" t-on-change="() => this.getMonth(this.value)">
-                           <option></option>
+           <div class="d-flex justify-content-between">
+               <center>
+                   <h1 style="margin:20px;">Inventory Dashboard</h1>
+               </center>
+               <div class="d-flex justify-content-between" style="width:500px; padding:30px;" >
+                       <input style="width:100px; padding:2px;" t-model="this.state.selectedyear" type="number" min="1900" max="2099" step="1" value="2026" t-on-change="() => this.getYear()"/>
+                       <select style="width:100px; padding:2px;" t-model="this.state.selectedmonth" t-on-change="() => this.getMonth()">
                            <option value="1">January</option>
                            <option value="2">February</option>
                            <option value="3">March</option>
@@ -20,11 +23,14 @@
                            <option value="11">November</option>
                            <option value="12">December</option>
                        </select>
+                       <select style="width:100px; padding:2px;" t-model="this.state.selectedweek" t-on-change="() => this.getWeek()" >
+                           <option value="1">Week 1</option>
+                           <option value="2">Week 2</option>
+                           <option value="3">Week 3</option>
+                           <option value="4">Week 4</option>
+                       </select>
+                       <button style="width:100px; padding:2px;" class="btn btn-primary" t-on-click="() => clearFilter()">Clear Filter</button>
                     </div>
-           <div>
-               <center>
-                   <h1 style="margin:20px;">Inventory Dashboard</h1>
-               </center>
            </div>
            <div class="row main-section" style="margin-left: 120px;">
    <!-- Lead Tile-->
@@ -43,11 +49,11 @@
                            <div class="stat_count_lead"
                                 style="font-size: 17px;">
                                <span id="templates">
-                                    <canvas id="incoming_data"/>
+                                    <canvas id="group_based"/>
                                </span>
                            </div>
                            <div class="stat-head"
-                                style="font-size: 14px;">Stock Incoming (product wise)
+                                style="font-size: 14px;">Group based on picking type
                            </div>
                        </div>
                    </div>
@@ -105,7 +111,6 @@
                            </div>
                            <div class="stat-head"
                                 style="font-size: 14px;">Location wise stock info
-                               revenue
                            </div>
                        </div>
                    </div>
@@ -132,11 +137,11 @@
                            <div class="stat_count_lead"
                                 style="font-size: 17px;">
                                <span id="templates">
-                                    <canvas id="group_based"/>
+                                    <canvas id="incoming_data"/>
                                </span>
                            </div>
                            <div class="stat-head"
-                                style="font-size: 14px;">Group based on picking type
+                                style="font-size: 14px;">Stock Incoming (product wise)
                            </div>
                        </div>
                    </div>
@@ -194,7 +199,6 @@
                            </div>
                            <div class="stat-head"
                                 style="font-size: 14px;">Warehouse and its location
-                               revenue
                            </div>
                        </div>
                    </div>
@@ -220,11 +224,11 @@
                            <div class="stat_count_lead"
                                 style="font-size: 17px;">
                                <span id="templates">
-                                    <canvas id="avg_expense"/>
+                                    <canvas id="inventory_valuation"/>
                                </span>
                            </div>
                            <div class="stat-head"
-                                style="font-size: 14px;">Average expense of  a product(purchase cost + landed cost)
+                                style="font-size: 14px;">Inventory valuation
                            </div>
                        </div>
                    </div>
@@ -248,11 +252,11 @@
                            <div class="stat_count_opp"
                                 style="font-size: 17px;">
                                <span id="templates">
-                                    <canvas id="inventory_valuation"/>
+                                    <canvas id="avg_expense"/>
                                </span>
                            </div>
                            <div class="stat-head"
-                                style="font-size: 14px;">Inventory valuation
+                                style="font-size: 14px;">Average expense of  a product(purchase cost + landed cost)
                            </div>
                        </div>
                    </div>
@@ -261,6 +265,11 @@
        </div>
    </div>
        </div>
+           <br/><br/>
+           <div class="d-flex justify-content-between" style="width:500px; padding-left:200px;">
+               <div id="firstrows" style="top:244px; padding-left:5px; width:349px; height:28px; "></div>
+           </div>
+           <br/><br/><br/>
        </div>
    </t>
 </templates>
