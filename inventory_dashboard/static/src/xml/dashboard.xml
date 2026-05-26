@@ -7,9 +7,18 @@
                <center>
                    <h1 style="margin:20px;">Inventory Dashboard</h1>
                </center>
-               <div class="d-flex justify-content-between" style="width:500px; padding:30px;" >
-                       <input style="width:100px; padding:2px;" t-model="this.state.selectedyear" type="number" min="1900" max="2099" step="1" value="2026" t-on-change="() => this.getYear()"/>
-                       <select style="width:100px; padding:2px;" t-model="this.state.selectedmonth" t-on-change="() => this.getMonth()">
+               <div style="width:500px; padding:20px;">
+               <div style="width:500px; padding-top:10px; padding-left:50px; box-shadow:2px 4px 8px 2px rgba(0,0,0.3,0.2);" >
+                   <div class="d-flex justify-content-between" style="width:260px; padding:10px;" >
+                       <div class="o-dropdown-item dropdown-item o-navigable d-flex justify-content-between o-date-filter-dropdown focus">
+                            <div style="width:20px;" class="o-date-option-label">Year</div>
+                            <input class="o_input"  style="width:70px; height:30px;" t-model="this.state.selectedyear" type="number" min="1900" max="2099" step="1" value="2026" t-on-change="() => this.getYear()"/>
+                       </div>
+                       <button style="width:100px; height:30px;  padding:2px;" class="btn btn-primary" t-on-click="() => clearFilter()">Clear</button>
+                   </div>
+                   <div style="width:185px; padding-bottom:10px;" class="o-dropdown-item dropdown-item o-navigable d-flex justify-content-between o-date-filter-dropdown focus">
+                       <div style="width:20px;" class="o-date-option-label">Month</div>
+                       <select class="o_input" style="width:100px; padding:2px;" t-model="this.state.selectedmonth" t-on-change="() => this.getMonth()">
                            <option value="1">January</option>
                            <option value="2">February</option>
                            <option value="3">March</option>
@@ -23,13 +32,17 @@
                            <option value="11">November</option>
                            <option value="12">December</option>
                        </select>
-                       <select style="width:100px; padding:2px;" t-model="this.state.selectedweek" t-on-change="() => this.getWeek()" >
+                   </div>
+                   <div style="width:185px;" class="o-dropdown-item dropdown-item o-navigable d-flex justify-content-between o-date-filter-dropdown focus">
+                       <div style="width:20px;" class="o-date-option-label">Week</div>
+                       <select class="o_input" style="width:100px; padding:2px;" t-model="this.state.selectedweek" t-on-change="() => this.getWeek()" >
                            <option value="1">Week 1</option>
                            <option value="2">Week 2</option>
                            <option value="3">Week 3</option>
                            <option value="4">Week 4</option>
                        </select>
-                       <button style="width:100px; padding:2px;" class="btn btn-primary" t-on-click="() => clearFilter()">Clear Filter</button>
+                   </div>
+               </div>
                     </div>
            </div>
            <div class="row main-section" style="margin-left: 120px;">
@@ -37,7 +50,7 @@
    <div id="leads" class="col-md-4 col-sm-6 tot_tasks oh-payslip"
         style=" overflow: hidden; padding-top: 30px;">
        <div class="oh-card" style="box-shadow:2px 4px 8px 2px rgba(0,0,0.3,0.2);
-       display: flex; justify-content: center;" role="button">
+       display: flex; justify-content: center; height:350px;" role="button">
            <div class="oh-card-body"
                 style="padding: 5px 5px; float: left; width: 100%;
                  height: auto; box-sizing: border-box; margin: 0;">
@@ -65,7 +78,7 @@
    <div id="opportunity" class="col-md-4 col-sm-6 tot_tasks oh-payslip"
         style=" overflow: hidden; padding-top: 30px;">
        <div class="oh-card" style="box-shadow:2px 4px 8px 2px rgba(0,0,0.3,0.2);
-       display: flex; justify-content: center;" role="button">
+       display: flex; justify-content: center; height:350px;" role="button">
            <div class="oh-card-body"
                 style="padding: 5px 5px; float: left; width: 100%;
                  height: auto; box-sizing: border-box; margin: 0;">
@@ -94,7 +107,7 @@
         class="col-md-4 col-sm-6 tot_tasks oh-payslip"
         style=" overflow: hidden; padding-top: 30px;">
        <div class="oh-card" style="box-shadow:2px 4px 8px 2px rgba(0,0,0.3,0.2);
-       display: flex; justify-content: center;" role="button">
+       display: flex; justify-content: center; height:350px;" role="button">
            <div class="oh-card-body"
                 style="padding: 5px 5px; float: left; width: 100%;
                  height: auto; box-sizing: border-box; margin: 0;">
@@ -125,7 +138,7 @@
    <div id="leads" class="col-md-4 col-sm-6 tot_tasks oh-payslip"
         style=" overflow: hidden; padding-top: 30px;">
        <div class="oh-card" style="box-shadow:2px 4px 8px 2px rgba(0,0,0.3,0.2);
-       display: flex; justify-content: center;" role="button">
+       display: flex; justify-content: center; height:250px;" role="button">
            <div class="oh-card-body"
                 style="padding: 5px 5px; float: left; width: 100%;
                  height: auto; box-sizing: border-box; margin: 0;">
@@ -153,7 +166,7 @@
    <div id="opportunity" class="col-md-4 col-sm-6 tot_tasks oh-payslip"
         style=" overflow: hidden; padding-top: 30px;">
        <div class="oh-card" style="box-shadow:2px 4px 8px 2px rgba(0,0,0.3,0.2);
-       display: flex; justify-content: center;" role="button">
+       display: flex; justify-content: center; height:250px;" role="button">
            <div class="oh-card-body"
                 style="padding: 5px 5px; float: left; width: 100%;
                  height: auto; box-sizing: border-box; margin: 0;">
@@ -182,7 +195,7 @@
         class="col-md-4 col-sm-6 tot_tasks oh-payslip"
         style=" overflow: hidden; padding-top: 30px;">
        <div class="oh-card" style="box-shadow:2px 4px 8px 2px rgba(0,0,0.3,0.2);
-       display: flex; justify-content: center;" role="button">
+       display: flex; justify-content: center; height:250px;" role="button">
            <div class="oh-card-body"
                 style="padding: 5px 5px; float: left; width: 100%;
                  height: auto; box-sizing: border-box; margin: 0;">
@@ -212,7 +225,7 @@
    <div id="leads" class="col-md-4 col-sm-6 tot_tasks oh-payslip"
         style=" overflow: hidden; padding-top: 30px;">
        <div class="oh-card" style="box-shadow:2px 4px 8px 2px rgba(0,0,0.3,0.2);
-       display: flex; justify-content: center;" role="button">
+       display: flex; justify-content: center; height:550px;" role="button">
            <div class="oh-card-body"
                 style="padding: 5px 5px; float: left; width: 100%;
                  height: auto; box-sizing: border-box; margin: 0;">
@@ -240,7 +253,7 @@
    <div id="opportunity" class="col-md-4 col-sm-6 tot_tasks oh-payslip"
         style=" overflow: hidden; padding-top: 30px;">
        <div class="oh-card" style="box-shadow:2px 4px 8px 2px rgba(0,0,0.3,0.2);
-       display: flex; justify-content: center;" role="button">
+       display: flex; justify-content: center; height:550px;" role="button">
            <div class="oh-card-body"
                 style="padding: 5px 5px; float: left; width: 100%;
                  height: auto; box-sizing: border-box; margin: 0;">
@@ -256,7 +269,37 @@
                                </span>
                            </div>
                            <div class="stat-head"
-                                style="font-size: 14px;">Average expense of  a product(purchase cost + landed cost)
+                                style="font-size: 14px;">Average expense of  a product
+                           </div>
+                       </div>
+                   </div>
+               </div>
+           </div>
+       </div>
+   </div>
+               <!-- Expected Revenue -->
+   <div id="expected_revenue"
+        class="col-md-4 col-sm-6 tot_tasks oh-payslip"
+        style=" overflow: hidden; padding-top: 30px;">
+       <div class="oh-card" style="box-shadow:2px 4px 8px 2px rgba(0,0,0.3,0.2);
+       display: flex; justify-content: center; height:550px;" role="button">
+           <div class="oh-card-body"
+                style="padding: 5px 5px; float: left; width: 100%;
+                 height: auto; box-sizing: border-box; margin: 0;">
+               <div class="stat-widget-one">
+                   <div class="stat-icon bg-mauve-light d-flex justify-content-left align-items-left">
+                       <div class="stat-content" style="
+                         text-align: center; font-weight: bold;
+                         padding-top: 20px; padding-left: 80px;">
+                           <div class="stat_count_ex_rev"
+                                style="font-size: 17px;">
+                               <span id="templates">
+                                   <div class="d-flex justify-content-between" style="padding-bottom:20px; padding-left:40px; width:310px;">
+                                        <h1 >Latest Products</h1><button class="btn btn-secondary ms-1" style="height:40px;" t-on-click="() => this.previousProducts()"><i class="fa fa-caret-left"/></button>
+                                        <button class="btn btn-secondary ms-1" style="height:40px;" t-on-click="() => this.nextProducts()"><i class="fa fa-caret-right"/></button>
+                                   </div>
+                                        <table t-ref="productstable" id="firstrows" style="top:244px; padding-left:15px; padding-right:15px; width:349px; height:28px; "></table>
+                               </span>
                            </div>
                        </div>
                    </div>
@@ -265,11 +308,6 @@
        </div>
    </div>
        </div>
-           <br/><br/>
-           <div class="d-flex justify-content-between" style="width:500px; padding-left:200px;">
-               <div id="firstrows" style="top:244px; padding-left:5px; width:349px; height:28px; "></div>
-           </div>
-           <br/><br/><br/>
        </div>
    </t>
 </templates>

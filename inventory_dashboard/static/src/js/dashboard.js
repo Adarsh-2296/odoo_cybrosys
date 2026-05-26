@@ -1,6 +1,6 @@
 /** @odoo-module **/
 import { registry } from "@web/core/registry";
-import {Component, useState} from "@odoo/owl";
+import {Component, useState, useRef} from "@odoo/owl";
 import { useService } from "@web/core/utils/hooks";
 import { loadJS } from "@web/core/assets";
 import { Dropdown } from "@web/core/dropdown/dropdown";
@@ -14,6 +14,7 @@ class InventoryDashboard extends Component {
     setup() {
         super.setup();
         this.orm = useService('orm')
+        this.pro = useRef("productstable")
         this.state = useState({
             selectedyear : 2026,
             selectedmonth : false,
@@ -33,39 +34,52 @@ class InventoryDashboard extends Component {
   }
   async getYear(){
         this.state.filter = true
+        this.incomingchart.destroy()
+        this.groupchart.destroy()
+        this.outgoingchart.destroy()
+        this.locationchart.destroy()
+        this.internalchart.destroy()
+        this.warehousechart.destroy()
+        this.averagechart.destroy()
+        this.inventorychart.destroy()
         this._fetch_data()
   }
   async getWeek(){
+        this.state.filter = true
+        this.incomingchart.destroy()
+        this.groupchart.destroy()
+        this.outgoingchart.destroy()
+        this.locationchart.destroy()
+        this.internalchart.destroy()
+        this.warehousechart.destroy()
+        this.averagechart.destroy()
+        this.inventorychart.destroy()
         this.state.weekfilter = true
         this._fetch_data()
   }
   async getMonth(){
         this.state.filter = true
+        this.incomingchart.destroy()
+        this.groupchart.destroy()
+        this.outgoingchart.destroy()
+        this.locationchart.destroy()
+        this.internalchart.destroy()
+        this.warehousechart.destroy()
+        this.averagechart.destroy()
+        this.inventorychart.destroy()
         this._fetch_data()
   }
   async _fetch_data(){
-        console.log(this.result)
-        if (this.incomingchart){
-            this.incomingchart.destroy()
-            this.groupchart.destroy()
-            this.outgoingchart.destroy()
-            this.locationchart.destroy()
-            this.internalchart.destroy()
-            this.warehousechart.destroy()
-            this.averagechart.destroy()
-            this.inventorychart.destroy()
-        }
         if (this.state.filter == false) {
             var result = await this.orm.call("stock.picking", "get_tiles_data", [], {'month' : false, 'year': false, 'week' : false});
         }
         else if (this.state.weekfilter == false){
-            var result = await this.orm.call("stock.picking", "get_tiles_data", [], {'month' : this.state.selectedmonth, 'year': this.state.selectedyear});
+            var result = await this.orm.call("stock.picking", "get_tiles_data", [], {'month' : this.state.selectedmonth, 'year': this.state.selectedyear,'week' : false});
         }
         else {
             var result = await this.orm.call("stock.picking", "get_tiles_data", [], {'month' : this.state.selectedmonth, 'year': this.state.selectedyear,'week' : this.state.selectedweek});
         }
         this.state.change = true
-        document.getElementById('firstrows').innerHTML =`<div>${result.products.slice(this.state.start, this.state.stop)} </div>`;
         await  loadJS(["/web/static/lib/Chart/Chart.js"]);
         var incoming = document.getElementById('incoming_data').getContext('2d');
         this.incomingchart = new Chart(incoming, {
@@ -301,9 +315,56 @@ class InventoryDashboard extends Component {
        }
    });
     }
+    async nextProducts(){
+        if (this.result.products.length > this.state.stop) {
+                this.state.start += 10
+                this.state.stop += 10
+                let products = this.result.products.slice(this.state.start,this.state.stop)
+                let prices = this.result.product_prices.slice(this.state.start,this.state.stop)
+                let images = this.result.product_image.slice(this.state.start,this.state.stop)
+                let id = this.result.id.slice(this.state.start,this.state.stop)
+                this.pro.el.innerHTML =`<tr><th class="border border-3">Product</th><th class="border border-3">Price</th><th class="border border-3"></th></tr>
+                                        <tr><td class="border border-3">${products[0]}</td><td class="border border-3">${prices[0]}$</td><td class="border border-3">
+                                        <a href="/odoo/products/${id[0]}" class="btn btn-primary" role="button">Backend</a></td> </tr>`;
+                for (let i = 1; i < 10;i++){
+                    if (products[i]) {
+                    this.pro.el.innerHTML +=`<tr><td class="border border-3">${products[i]}</td><td class="border border-3">${prices[i]}$</td><td class="border border-3">
+                                             <a href="/odoo/products/${id[i]}" class="btn btn-primary" role="button">Backend</a></td> </tr>`;
+                    }
+                }
+
+        }
+    }
+    async previousProducts(){
+        if (this.state.start > 0){
+            this.state.start -= 10
+            this.state.stop -= 10
+            let products = this.result.products.slice(this.state.start,this.state.stop)
+            let prices = this.result.product_prices.slice(this.state.start,this.state.stop)
+            let images = this.result.product_image.slice(this.state.start,this.state.stop)
+            let id = this.result.id.slice(this.state.start,this.state.stop)
+            this.pro.el.innerHTML =`<tr><th class="border border-3">Product</th><th class="border border-3">Price</th><th class="border border-3"></th></tr>
+                                    <tr><td class="border border-3">${products[0]}</td>  <td class="border border-3">${prices[0]}$</td><td class="border border-3">
+                                    <a href="/odoo/products/${id[0]}" class="btn btn-primary" role="button">Backend</a></td> </tr>`;
+            for (let i = 1; i < 10;i++){
+                this.pro.el.innerHTML +=`<tr><td class="border border-3">${products[i]}</td>  <td class="border border-3">${prices[i]}$</td><td class="border border-3">
+                                         <a href="/odoo/products/${id[i]}" class="btn btn-primary" role="button">Backend</a></td> </tr>`;
+            }
+        }
+    }
     async _fetch_products(){
-        var result = await this.orm.call("stock.picking", "get_tiles_data", [], {'month' : false, 'year': false, 'week' : false});
-        document.getElementById('firstrows').innerHTML =`<div>${result.products.slice(this.state.start, this.state.stop)} </div>`;
+        this.result = await this.orm.call("stock.picking", "get_products_data", [], {});
+        let products = this.result.products.slice(this.state.start,this.state.stop)
+        let prices = this.result.product_prices.slice(this.state.start,this.state.stop)
+        let images = this.result.product_image.slice(this.state.start,this.state.stop)
+        let id = this.result.id.slice(this.state.start,this.state.stop)
+        this.pro.el.innerHTML =`<tr><th class="border border-3">Product</th><th class="border border-3">Price</th><th class="border border-3"></th></tr>
+                                <tr><td class="border border-3">${products[0]}</td><td class="border border-3">${prices[0]}$</td><td class="border border-3">
+                                <a href="/odoo/products/${id[0]}" class="btn btn-primary" role="button">Backend</a></td></tr>`;
+        for (let i = 1; i < 10;i++){
+            this.pro.el.innerHTML +=`<tr><td class="border border-3">${products[i]}</td><td class="border border-3">${prices[i]}$</td> <td class="border border-3">
+                                     <a href="/odoo/products/${id[i]}" class="btn btn-primary" role="button">Backend</a></td></tr>`;
+        }
     }
 
 }

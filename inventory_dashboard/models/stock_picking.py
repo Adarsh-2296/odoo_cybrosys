@@ -7,10 +7,6 @@ class StockPicking(models.Model):
    def get_tiles_data(self,month,year,week):
        """To get the data and pass it to the js, for displaying them as charts"""
        company_id = self.env.company
-       product_ids = self.env['product.product'].search([('type','=','consu')]).sorted('id', reverse=True)
-       all_products = product_ids.mapped('name')
-       print(product_ids[0:10])
-
        if month and year and week:
            date_1 = datetime.date(int(year),int(month),1)
            date_7 = datetime.date(int(year),int(month),7)
@@ -160,6 +156,18 @@ class StockPicking(models.Model):
                 'product_val_names' : product_val_names,
                 'product_val_avg_cost' : product_val_avg_cost,
                 'location_id' : location_id,
-                'products' : all_products,
                }
 
+   @api.model
+   def get_products_data(self):
+       product_ids = self.env['product.template'].search([('type', '=', 'consu')]).sorted('id', reverse=True)
+       product_names = product_ids.mapped('name')
+       product_prices = product_ids.mapped('list_price')
+       product_image = product_ids.mapped('image_1920')
+       product_id = product_ids.mapped('id')
+       print(product_names[0],product_prices[0],product_image[0])
+       return { 'products' : product_names,
+                'product_prices' : product_prices,
+                'product_image' : product_image,
+                'id' : product_id,
+                }
