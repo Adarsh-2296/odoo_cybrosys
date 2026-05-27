@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+   <t t-name="systray_icon" owl="1">
+       <div class="o_mail_navbar_item" style="cursor: pointer;">
+           <i class="fa fa-cloud" title="Weather notification Systray Icon"
+              style="color:#ffffff; cursor: pointer; padding-right:5px; padding-top:15px;"
+              t-on-click="onClick"/>
+       </div>
+   </t>
+</templates>

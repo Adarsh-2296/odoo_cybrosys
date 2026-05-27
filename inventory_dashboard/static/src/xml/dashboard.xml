@@ -295,10 +295,17 @@
                                 style="font-size: 17px;">
                                <span id="templates">
                                    <div class="d-flex justify-content-between" style="padding-bottom:20px; padding-left:40px; width:310px;">
-                                        <h1 >Latest Products</h1><button class="btn btn-secondary ms-1" style="height:40px;" t-on-click="() => this.previousProducts()"><i class="fa fa-caret-left"/></button>
+                                        <h1 >Latest Products</h1>
+                                       <button class="btn btn-secondary ms-1" style="height:40px;" t-on-click="() => this.previousProducts()"><i class="fa fa-caret-left"/></button>
                                         <button class="btn btn-secondary ms-1" style="height:40px;" t-on-click="() => this.nextProducts()"><i class="fa fa-caret-right"/></button>
                                    </div>
-                                        <table t-ref="productstable" id="firstrows" style="top:244px; padding-left:15px; padding-right:15px; width:349px; height:28px; "></table>
+                                        <table>
+                                                <tr class="border border-3" t-foreach="this.result.products.slice(this.state.start,this.state.stop)" t-as="pro" t-key="pro">
+                                                    <td t-out="pro[1]" class="border border-3"/><td t-out="pro[2]+'$'" class="border border-3"/><td class="border border-3">
+                                                    <a role="button" class="btn btn-primary" t-on-click="() => this.productBackend(pro[0])">Backend</a></td>
+                                                    <td><img style="width: 30px; height: 30px;" t-att-src="'/web/image/product.template/'+pro[0]+'/image_1920'"/></td>
+                                                </tr>
+                                        </table>
                                </span>
                            </div>
                        </div>
