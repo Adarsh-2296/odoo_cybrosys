@@ -1,20 +1,22 @@
 /** @odoo-module **/
 import { registry } from "@web/core/registry";
-import {Component, useState, useRef} from "@odoo/owl";
+import {Component, useState, onWillStart} from "@odoo/owl";
 import { useService } from "@web/core/utils/hooks";
 import { loadJS } from "@web/core/assets";
-import { Dropdown } from "@web/core/dropdown/dropdown";
-import { DateTimeInput } from "@web/core/datetime/datetime_input";
-import { DropdownItem } from "@web/core/dropdown/dropdown_item";
 import { redirect } from "@web/core/utils/urls";
+import { FormViewDialog } from "@web/views/view_dialogs/form_view_dialog";
+
 
 const actionRegistry = registry.category("actions");
 class InventoryDashboard extends Component {
-    static components = { Dropdown, DateTimeInput, DropdownItem };
     setup() {
         super.setup();
         this.orm = useService('orm')
-        this.pro = useRef("productstable")
+        this.actionService = useService("action");
+        this.dialog = useService("dialog")
+        onWillStart(async () => {
+            this.result = await this.orm.call("stock.picking", "get_products_data", [],{});
+                });
         this.state = useState({
             selectedyear : 2026,
             selectedmonth : false,
@@ -24,11 +26,10 @@ class InventoryDashboard extends Component {
             change : false,
             start : 0,
             stop : 10,
+
         });
         this._fetch_data();
-        this._fetch_products();
   }
-
   async clearFilter(){
         redirect('/odoo/action-678')
   }
@@ -70,6 +71,7 @@ class InventoryDashboard extends Component {
         this._fetch_data()
   }
   async _fetch_data(){
+        console.log(this.result)
         if (this.state.filter == false) {
             var result = await this.orm.call("stock.picking", "get_tiles_data", [], {'month' : false, 'year': false, 'week' : false});
         }
@@ -319,54 +321,27 @@ class InventoryDashboard extends Component {
         if (this.result.products.length > this.state.stop) {
                 this.state.start += 10
                 this.state.stop += 10
-                let products = this.result.products.slice(this.state.start,this.state.stop)
-                let prices = this.result.product_prices.slice(this.state.start,this.state.stop)
-                let images = this.result.product_image.slice(this.state.start,this.state.stop)
-                let id = this.result.id.slice(this.state.start,this.state.stop)
-                this.pro.el.innerHTML =`<tr><th class="border border-3">Product</th><th class="border border-3">Price</th><th class="border border-3"></th></tr>
-                                        <tr><td class="border border-3">${products[0]}</td><td class="border border-3">${prices[0]}$</td><td class="border border-3">
-                                        <a href="/odoo/products/${id[0]}" class="btn btn-primary" role="button">Backend</a></td> </tr>`;
-                for (let i = 1; i < 10;i++){
-                    if (products[i]) {
-                    this.pro.el.innerHTML +=`<tr><td class="border border-3">${products[i]}</td><td class="border border-3">${prices[i]}$</td><td class="border border-3">
-                                             <a href="/odoo/products/${id[i]}" class="btn btn-primary" role="button">Backend</a></td> </tr>`;
-                    }
-                }
-
         }
     }
     async previousProducts(){
         if (this.state.start > 0){
             this.state.start -= 10
             this.state.stop -= 10
-            let products = this.result.products.slice(this.state.start,this.state.stop)
-            let prices = this.result.product_prices.slice(this.state.start,this.state.stop)
-            let images = this.result.product_image.slice(this.state.start,this.state.stop)
-            let id = this.result.id.slice(this.state.start,this.state.stop)
-            this.pro.el.innerHTML =`<tr><th class="border border-3">Product</th><th class="border border-3">Price</th><th class="border border-3"></th></tr>
-                                    <tr><td class="border border-3">${products[0]}</td>  <td class="border border-3">${prices[0]}$</td><td class="border border-3">
-                                    <a href="/odoo/products/${id[0]}" class="btn btn-primary" role="button">Backend</a></td> </tr>`;
-            for (let i = 1; i < 10;i++){
-                this.pro.el.innerHTML +=`<tr><td class="border border-3">${products[i]}</td>  <td class="border border-3">${prices[i]}$</td><td class="border border-3">
-                                         <a href="/odoo/products/${id[i]}" class="btn btn-primary" role="button">Backend</a></td> </tr>`;
-            }
         }
     }
-    async _fetch_products(){
-        this.result = await this.orm.call("stock.picking", "get_products_data", [], {});
-        let products = this.result.products.slice(this.state.start,this.state.stop)
-        let prices = this.result.product_prices.slice(this.state.start,this.state.stop)
-        let images = this.result.product_image.slice(this.state.start,this.state.stop)
-        let id = this.result.id.slice(this.state.start,this.state.stop)
-        this.pro.el.innerHTML =`<tr><th class="border border-3">Product</th><th class="border border-3">Price</th><th class="border border-3"></th></tr>
-                                <tr><td class="border border-3">${products[0]}</td><td class="border border-3">${prices[0]}$</td><td class="border border-3">
-                                <a href="/odoo/products/${id[0]}" class="btn btn-primary" role="button">Backend</a></td></tr>`;
-        for (let i = 1; i < 10;i++){
-            this.pro.el.innerHTML +=`<tr><td class="border border-3">${products[i]}</td><td class="border border-3">${prices[i]}$</td> <td class="border border-3">
-                                     <a href="/odoo/products/${id[i]}" class="btn btn-primary" role="button">Backend</a></td></tr>`;
-        }
+    async productBackend(id){
+        // this.dialog.add(FormViewDialog, {
+        //         resId: id,
+        //         resModel: 'product.template',
+        //     })
+        this.actionService.doAction({
+            res_model: "product.template",
+            res_id: id,
+            type: "ir.actions.act_window",
+            views: [[false, "form"]],
+            target: "new",
+        });
     }
-
 }
 InventoryDashboard.template = "inventory_dashboard.InventoryDashboard";
 actionRegistry.add("stock_dashboard_tag", InventoryDashboard);

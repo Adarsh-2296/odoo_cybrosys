@@ -161,13 +161,9 @@ class StockPicking(models.Model):
    @api.model
    def get_products_data(self):
        product_ids = self.env['product.template'].search([('type', '=', 'consu')]).sorted('id', reverse=True)
-       product_names = product_ids.mapped('name')
-       product_prices = product_ids.mapped('list_price')
-       product_image = product_ids.mapped('image_1920')
-       product_id = product_ids.mapped('id')
-       print(product_names[0],product_prices[0],product_image[0])
-       return { 'products' : product_names,
-                'product_prices' : product_prices,
-                'product_image' : product_image,
-                'id' : product_id,
+       products = []
+       for record in product_ids:
+           products.append([record.id,record.name,record.list_price])
+       print(products)
+       return { 'products' : products,
                 }
