@@ -1,10 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <templates xml:space="preserve">
-   <t t-name="systray_icon" owl="1">
+   <t t-name="weather_notification.systray_icon" owl="1">
+       <Dropdown>
        <div class="o_mail_navbar_item" style="cursor: pointer;">
-           <i class="fa fa-cloud" title="Weather notification Systray Icon"
-              style="color:#ffffff; cursor: pointer; padding-right:5px; padding-top:15px;"
-              t-on-click="onClick"/>
+           <i class="fa fa-lg fa-cloud" title="Weather notification Systray Icon"
+              style="color:#ffffff; cursor: pointer; padding-right:5px;"
+              />
+           <t t-set-slot="content">
+               <div style="width: 300px;">
+                    <center><h1>Weather Today</h1></center>
+                   <p style="padding-left: 50px;" t-out="this.result.current.last_updated.slice(0,10)"></p>
+                   <t t-if="this.result.current.cloud > 50">
+                       <div class="d-flex justify-content-between" style="width: 200px;">
+                            <h1 style="padding-left: 50px;" t-out="this.result.current.temp_c + ' Cloudy'"></h1>
+                            <img src="//cdn.weatherapi.com/weather/64x64/day/176.png"/>
+                       </div>
+                   </t>
+                   <t t-else="">
+                       <div class="d-flex justify-content-between" style="width: 200px;">
+                            <h1 style="padding-left: 50px;" t-out="this.result.current.temp_c + ' Sunny'"></h1>
+                            <img src="//cdn.weatherapi.com/weather/64x64/day/176.png"/>
+                       </div>
+                   </t>
+                   <b><span style="padding-left: 50px;">Last Updated :</span></b>
+                   <p style="padding-left: 50px;" t-out="this.result.current.last_updated"/>
+               </div>
+           </t>
        </div>
+       </Dropdown>
    </t>
 </templates>
