@@ -7,24 +7,34 @@
               style="color:#ffffff; cursor: pointer; padding-right:5px;"
               />
            <t t-set-slot="content">
+               <t t-if="this.result.forecast">
                <div style="width: 300px;">
-                    <center><h1>Weather Today</h1></center>
-                   <p style="padding-left: 50px;" t-out="this.result.current.last_updated.slice(0,10)"></p>
+                   <span style="font-size:14px; padding-left: 50px; padding-top: 40px;" t-out="this.result.current.last_updated.slice(8,10)+' '+this.month[this.result.current.last_updated.slice(5,7)-1]+' '+this.result.current.last_updated.slice(0,4)"/><br/>
+                   <span style="font-size:16px; padding-left: 50px;" t-out="this.result.location.name"/><br/>
+                   <span style="padding-left: 50px; font-size:16px;" t-out="'Day '+this.result.forecast.forecastday[0].day.maxtemp_c+ ' Night '+this.result.forecast.forecastday[0].day.mintemp_c"/>
                    <t t-if="this.result.current.cloud > 50">
                        <div class="d-flex justify-content-between" style="width: 200px;">
                             <h1 style="padding-left: 50px;" t-out="this.result.current.temp_c + ' Cloudy'"></h1>
                             <img src="//cdn.weatherapi.com/weather/64x64/day/176.png"/>
                        </div>
+                       <p style="padding-left: 50px;">A Cloudy Weather</p>
                    </t>
                    <t t-else="">
                        <div class="d-flex justify-content-between" style="width: 200px;">
                             <h1 style="padding-left: 50px;" t-out="this.result.current.temp_c + ' Sunny'"></h1>
                             <img src="//cdn.weatherapi.com/weather/64x64/day/176.png"/>
                        </div>
+                       <p style="padding-left: 50px;">A Sunny Weather</p>
                    </t>
                    <b><span style="padding-left: 50px;">Last Updated :</span></b>
                    <p style="padding-left: 50px;" t-out="this.result.current.last_updated"/>
                </div>
+                   </t>
+               <t t-else="">
+                   <div style="width: 400px; height:200px; padding-top:80px; padding-left:20px;">
+                       <h1>No matching location found!</h1>
+                   </div>
+               </t>
            </t>
        </div>
        </Dropdown>

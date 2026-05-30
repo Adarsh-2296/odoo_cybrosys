@@ -5,6 +5,9 @@
    'summary': 'Systray Icon',
    'description': """Systray Icon fo weather notification  """,
    'depends': ['web'],
+    'data': [
+        'views/res_config_settings.xml',
+    ],
    'assets': {
        'web.assets_backend': [
            'weather_notification/static/src/js/weather_notification.js',
