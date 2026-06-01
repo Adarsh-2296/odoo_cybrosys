@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="payment_method_multisafepay" model="payment.method">
+            <field name="name">MultiSafePay Online</field>
+            <field name="code">multisafepay</field>
+            <field name="sequence">10</field>
+            <field name="support_tokenization">True</field>
+        </record>
+        <record id="payment_method_multisafepay_direct" model="payment.method">
+            <field name="name">MultiSafePay Direct</field>
+            <field name="code">multisafepay_direct</field>
+            <field name="sequence">11</field>
+            <field name="support_tokenization">False</field>
+        </record>
+    </data>
+</odoo>
