@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data>
+    <data noupdate="1">
         <record id="payment_provider_multisafepay" model="payment.provider">
             <field name="name">MultiSafePay Online</field>
             <field name="code">multisafepay</field>
@@ -8,24 +8,10 @@
                    ref="payment_multisafepay_redirect_form"/>
             <field name="payment_method_ids"
                    eval="[(6, 0, [ref('payment_method_multisafepay')])]"/>
+            <field name="image_128" type="base64" file="payment_multisafepay/static/description/icon.png"/>
         </record>
         <record id="payment_provider_multisafepay" model="payment.provider">
         <field name="name">MultiSafePay Online</field>
-        <field name="image_128" type="base64" file="payment_multisafepay/static/description/icon.png"/>
-        <field name="module_id" ref="base.module_payment_multisafepay"/>
-        </record>
-
-        <record id="payment_provider_multisafepay_direct" model="payment.provider">
-            <field name="name">MultiSafePay Direct</field>
-            <field name="code">multisafepay_direct</field>
-            <field name="inline_form_view_id"
-                   ref="payment_multisafepay_inline_form"/>
-            <field name="payment_method_ids"
-                   eval="[(6, 0, [ref('payment_method_multisafepay_direct')])]"/>
-        </record>
-        <record id="payment_provider_multisafepay_direct" model="payment.provider">
-        <field name="name">MultiSafePay Direct</field>
-        <field name="image_128" type="base64" file="payment_multisafepay/static/description/icon.png"/>
         <field name="module_id" ref="base.module_payment_multisafepay"/>
         </record>
     </data>
