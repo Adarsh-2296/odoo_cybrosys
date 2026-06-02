@@ -9,14 +9,6 @@
                 class="btn btn-primary d-none">Pay</button>
     </form>
     </template>
-    <template id="payment_multisafepay_inline_form">
-    <div t-attf-id="multisafepay-direct-container-{{provider_id}}">
-        <select id="multisafepay_simulated_state" class="form-select">
-            <option value="done">Successful</option>
-            <option value="cancel">Cancelled</option>
-        </select>
-    </div>
-    </template>
 
 
 </odoo>
