@@ -1,0 +1,23 @@
+{
+    'name': 'Project Template',
+    'version': "19.0.1.0",
+    'summary': """To Create Templates of project and task and also to create project and tasks from templates""",
+    'description': """To Create Templates of project and task and also to create project and tasks from templates""",
+    'category': 'Services',
+    'author': "Adarsh",
+    'website': "www.cybrosys.com",
+    'license': "LGPL-3",
+    'sequence':-6,
+    'installable': True,
+    'application': True,
+    'auto_install': True,
+    'depends': ['mail','project'],
+    'data': [
+        'security/ir.model.access.csv',
+        'views/project_task_views.xml',
+        'views/project_project_views.xml',
+        'views/project_template_views.xml',
+        'views/task_template_views.xml',
+        'views/project_menus.xml',
+    ],
+}
