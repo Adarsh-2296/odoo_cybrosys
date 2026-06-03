@@ -1,14 +1,16 @@
 from odoo import models
 import requests
+from odoo import http
 class PaymentTransaction(models.Model):
     _inherit = 'payment.transaction'
+
     def _get_specific_rendering_values(self, processing_values):
         """Provides the values needed to render the QWeb redirect form."""
         res = super()._get_specific_rendering_values(processing_values)
         if self.provider_code != 'multisafepay':
             return res
-        print(processing_values)
-        url = "https://testapi.multisafepay.com/v1/json/orders?api_key=97fa6f38e6ceda008884712c849b42b0a34d0409"
+        web_url = http.request.env['ir.config_parameter'].get_param('web.base.url')
+        url = "https://testapi.multisafepay.com/v1/json/orders?api_key="+self.provider_id.multisafepay_api_key
         currency = self.env['res.currency'].browse([processing_values['currency_id']]).name
         payload = {
             "type": "redirect",
@@ -18,12 +20,11 @@ class PaymentTransaction(models.Model):
             "description": "Test Order Description",
             "payment_options": {
                 "notification_method": "POST",
-                "notification_url": "https://www.example.com/webhooks/payment",
-                "redirect_url": "http://localhost:8019/payment/done",
-                "cancel_url": "http://localhost:8019/shop/payment",
+                "notification_url": web_url+"/payment/update",
+                "redirect_url": web_url+"/payment/done/"+str(self.id),
+                "cancel_url": web_url+"/payment/cancel/"+str(self.id),
                 "close_window": False
             },
-            'custom_info': {'custom_1': self.id, 'custom_2': None, 'custom_3': None},
             "customer": {
                 "locale": "en_US",
                 "disable_send_email": False
@@ -41,4 +42,5 @@ class PaymentTransaction(models.Model):
         return {
             'api_url':   response['data']['payment_url'],
             'reference': self.reference,
+            'provider' : self.provider_id
         }

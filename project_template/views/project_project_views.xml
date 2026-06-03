@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="project_project_inherited_view_form_template_project" model="ir.ui.view">
+        <field name="name">project.project.inherited.view.form.template.project</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.edit_project"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button type="object" name="action_create_project_template" string="Create Template" class="btn btn-primary"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

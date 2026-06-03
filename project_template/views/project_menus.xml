@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+    <!--    Root menu-->
+   <menuitem id="project_template_root" name="Project Template"/>
+         <!--    Main Menu -->
+        <menuitem id="project_template_menu" name="Templates" parent="project_template_root"/>
+                <!--      Sub Menu With Action-->
+            <menuitem id="project_template_submenu" name="Project Template" parent="project_template_menu" action="action_project_template"/>
+            <menuitem id="task_template_submenu" name="Task Template" parent="project_template_menu" action="action_task_template"/>
+</odoo>

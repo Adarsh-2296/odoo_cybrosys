@@ -4,20 +4,32 @@ from odoo.http import request
 
 class PaymentMultiSafePayPostProcessing(http.Controller):
 
-    @http.route(['/payment/done'], type='http', auth='public', website=True,  methods=['GET'])
-    def multisafepay__simulate_payment(self, **data):
-        print(self)
+    @http.route(['/payment/done/<int:transaction_id>'], type='http', auth='public', website=True,  methods=['GET'])
+    def multisafepay__simulate_payment(self, transaction_id,**data):
         print(data)
         reference = data.get('transactionid')
-        url = "https://testapi.multisafepay.com/v1/json/orders/"+reference+"?api_key=97fa6f38e6ceda008884712c849b42b0a34d0409"
+        transaction = self.env['payment.transaction'].sudo().browse(transaction_id)
+        url = "https://testapi.multisafepay.com/v1/json/orders/"+reference+"?api_key="+transaction.provider_id.multisafepay_api_key
         headers = {"accept": "application/json"}
         response = requests.get(url, headers=headers).json()
-        transaction = self.env['payment.transaction'].sudo().browse(int(response['data']['custom_info']['custom_1']))
         print(response)
         if response['success'] == True:
             print(response['data'])
             if response['data']['payment_methods'][0]['status'] == 'completed':
                 transaction.write({'state': 'done'})
                 return request.redirect('/payment/status')
-            else:
+            elif response['data']['payment_methods'][0]['status'] == 'uncleared':
+                transaction.write({'state': 'pending'})
                 return request.redirect('/payment/status')
+            elif response['data']['payment_methods'][0]['status'] in ['cancelled','expired']:
+                transaction.write({'state': 'cancel'})
+                return request.redirect('/payment/status')
+            else:
+                transaction.write({'state': 'error'})
+                return request.redirect('/payment/status')
+    @http.route(['/payment/cancel/<int:transaction_id>'], type='http', auth='public', website=True,  methods=['GET'])
+    def multisafepay__cancel_payment(self, transaction_id,**data):
+        print(data)
+        transaction = self.env['payment.transaction'].sudo().browse(transaction_id)
+        transaction.write({'state': 'cancel'})
+        return request.redirect('/payment/status')
