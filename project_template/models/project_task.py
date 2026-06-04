@@ -1,14 +1,20 @@
 # -*- coding: utf-8 -*-
-from odoo import models
+from odoo import models,Command,fields
 
 class ProjectTemplate(models.Model):
     _inherit = 'project.task'
 
+    task_template_id = fields.Many2one('task.template',string='Task Template')
+
 
     def action_create_task_template(self):
-        print('done')
         task_template = self.env['task.template'].create({
             'name': self.name,
+            'user_ids': [Command.link(user.id) for user in self.user_ids],
+            'partner_id': self.partner_id.id,
+            'date_deadline': self.date_deadline,
+            'priority': self.priority,
+            'description': self.description,
         })
         return {
             'type': 'ir.actions.act_window',

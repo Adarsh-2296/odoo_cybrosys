@@ -20,24 +20,83 @@
                     <button type="object" name="action_create_project" string="Create Project" class="btn btn-primary"/>
                 </header>
                 <sheet>
+                    <div invisible="not project_count" name="button_box"  class="oe_button_box">
+                        <button
+                            type="object"
+                            icon="fa-puzzle-piece"
+                            name="project_smart_button">
+                            <field name="project_count"
+                                   string="Projects"
+                                   widget="statinfo"/>
+
+                        </button>
+                    </div>
+                    <div class="oe_title">
+                        <h1 class="d-flex flex-row">
+                            <field name="is_favorite" nolabel="1" widget="project_is_favorite" class="me-2" options="{'autosave': False}"/>
+                            <field name="name" options="{'line_breaks': False}" widget="text" class="o_text_overflow" placeholder="e.g. Office Party"/>
+                        </h1>
+                    </div>
                     <group>
                         <group>
-                            <field name="name"/>
-<!--                            <field name="partner_id"/>-->
-<!--                            <field name="tag_ids"/>-->
-                            <field name="task_ids" widget="many2many_tags"/>
+                            <field name="partner_id" widget="res_partner_many2one" invisible="not allow_billable"/>
+                            <field name="tag_ids" widget="many2many_tags" options="{'color_field': 'color'}"/>
+                            <field name="company_id" options="{'no_create': True}"/>
                         </group>
                         <group>
-<!--                            <field name="date_start"/>-->
-<!--                            <field name="date"/>-->
-<!--                            <field name="allow_task_dependencies"/>-->
-<!--                            <field name="allow_milestones"/>-->
-<!--                            <field name="allow_recurring_tasks"/>-->
-<!--                            <field name="task_properties_definition"/>-->
+                            <field name="user_id" string="Project Manager" widget="many2one_avatar_user" domain="[('share', '=', False)]"/>
+                            <field name="date_start" string="Planned Date" widget="daterange" options="{&quot;end_date_field&quot;: &quot;date&quot;, &quot;always_range&quot;: &quot;1&quot;}" required="date_start or date"/>
+                            <field name="date" invisible="1" required="date_start"/>
+                            <field name="type_ids" widget="many2many_tags"/>
                         </group>
                     </group>
+                    <notebook>
+                        <page name="description" string="Description">
+                            <field name="description" options="{'resizable': false}" placeholder="Project description..."/>
+                        </page>
+                        <page name="settings" string="Settings">
+                            <group>
+                                <group>
+                                    <field name="privacy_visibility" widget="radio"/>
+                                </group>
+                                <group col="1" class="row mt16 o_settings_container">
+                                    <div>
+                                        <setting class="col-lg-12" id="recurring_tasks_setting" help="Auto-generate tasks for regular activities">
+                                            <field name="allow_recurring_tasks"/>
+                                        </setting>
+                                        <setting class="col-lg-12" id="task_dependencies_setting" help="Determine the order in which to perform tasks">
+                                            <field name="allow_task_dependencies"/>
+                                        </setting>
+                                        <setting class="col-lg-12" id="project_milestone_setting" help="Track major progress points that must be reached to achieve success">
+                                            <field name="allow_milestones"/>
+                                        </setting>
+                                        <setting class="col-lg-12" id="project_billable_setting" >
+                                            <field name="allow_billable"/>
+                                        </setting>
+                                    </div>
+                                </group>
+                            </group>
+                        </page>
+                        <page string="Tasks">
+                            <field name="task_ids"/>
+                        </page>
+                    </notebook>
                 </sheet>
+                <chatter/>
             </form>
+        </field>
+    </record>
+    <record id="action_project_template_list_view" model="ir.ui.view">
+        <field name="name">project.template.tree</field>
+        <field name="model">project.template</field>
+        <field name="arch" type="xml">
+            <list>
+                <field name="name"/>
+                <field name="partner_id"/>
+                <field name="company_id"/>
+                <field name="user_id"/>
+                <button name="project_smart_button" type="object" string="View Tasks"/>
+            </list>
         </field>
     </record>
 </odoo>

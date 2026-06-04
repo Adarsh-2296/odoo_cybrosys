@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<odoo>
+   <data noupdate="1">
+       <record id="user_madison_diaz_project_template" model="res.users">
+           <field name="name">Madison Diaz</field>
+           <field name="role">group_system</field>
+           <field name="login">diaz</field>
+       </record>
+   </data>
+</odoo>

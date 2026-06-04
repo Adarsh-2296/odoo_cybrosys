@@ -14,6 +14,7 @@
     'depends': ['mail','project'],
     'data': [
         'security/ir.model.access.csv',
+        'data/res_user_data.xml',
         'views/project_task_views.xml',
         'views/project_project_views.xml',
         'views/project_template_views.xml',
