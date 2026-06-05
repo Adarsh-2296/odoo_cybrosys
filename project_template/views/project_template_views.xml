@@ -95,7 +95,7 @@
                 <field name="partner_id"/>
                 <field name="company_id"/>
                 <field name="user_id"/>
-                <button name="project_smart_button" type="object" string="View Tasks"/>
+                <button name="task_templates_button" type="object" string="View Tasks"/>
             </list>
         </field>
     </record>

@@ -92,3 +92,14 @@ class ProjectTemplate(models.Model):
             'domain': [('project_template_id', '=', self.id)],
             'context': "{'create': False}"
         }
+
+    def task_templates_button(self):
+        """list of Tasks created by this template"""
+        return {
+                'type': 'ir.actions.act_window',
+                'name': 'task',
+                'view_mode': 'list,form',
+                'res_model': 'task.template',
+                'domain': [('project_template_id', '=', self.id)],
+                'context': "{'create': False}"
+            }
