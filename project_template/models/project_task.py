@@ -16,6 +16,9 @@ class ProjectTemplate(models.Model):
             'priority': self.priority,
             'description': self.description,
         })
+        if self.child_ids:
+            for rec in self.child_ids:
+                print(rec)
         return {
             'type': 'ir.actions.act_window',
             'view_mode': 'form',
