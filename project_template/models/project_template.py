@@ -55,19 +55,6 @@ class ProjectTemplate(models.Model):
             'type_ids': [Command.link(stage.id) for stage in self.type_ids],
             'is_favorite': self.is_favorite,
         })
-        # if self.task_ids:
-        #     tasks = self.task_ids.filtered(lambda task: not task.parent_id)
-        #     for i in tasks:
-        #         self.env['project.task'].create({"name": i.name,
-        #                                                        'task_template_id': i.id,
-        #                                                        'user_ids': [Command.link(user.id) for user in i.user_ids],
-        #                                                        'project_id': project.id,
-        #                                                        'partner_id': i.partner_id.id,
-        #                                                        'date_deadline': i.date_deadline,
-        #                                                        'priority': i.priority,
-        #                                                        'description': i.description,
-        #                                                        'child_ids': [Command.create(task.name) for task in i.child_ids],
-        #                                                        })
         if self.task_ids:
             tasks_no_parent = self.task_ids.filtered(lambda task: not task.parent_id)
             task_template_dict = {}
