@@ -25,15 +25,67 @@ class ProjectTemplate(models.Model):
     child_ids = fields.One2many('task.template', 'parent_id', string="Sub-tasks")
 
     def action_create_task(self):
-        task = self.env['project.task'].sudo().create({
-            'task_template_id': self.id,
-            'name': self.name,
-            'user_ids': [Command.link(user.id) for user in self.user_ids],
-            'partner_id': self.partner_id.id,
-            'date_deadline': self.date_deadline,
-            'priority': self.priority,
-            'description': self.description,
-        })
+        task_template_dict = {}
+        if self.project_template_id:
+            project = self.env['project.project'].create({'name':self.project_template_id.name})
+            task = self.env['project.task'].sudo().create({
+                'task_template_id': self.id,
+                'name': self.name,
+                'user_ids': [Command.link(user.id) for user in self.user_ids],
+                'project_id': project.id,
+                'partner_id': self.partner_id.id,
+                'date_deadline': self.date_deadline,
+                'priority': self.priority,
+                'description': self.description,
+            })
+            if self.child_ids:
+                child_ids = [Command.create({'name': task.name,
+                                             'user_ids': [Command.link(user.id) for user in task.user_ids],
+                                             'partner_id': task.partner_id.id,
+                                             'date_deadline': task.date_deadline,
+                                             'project_id': project.id,
+                                             'priority': task.priority,
+                                             'description': task.description, }) for task in self.child_ids]
+                task.update({'child_ids': child_ids})
+                for rec in range(len(self.child_ids)):
+                    if self.child_ids[rec].child_ids:
+                        flag = True
+                        task_template_dict.update({task.child_ids[rec]: self.child_ids[rec].child_ids})
+                        print('child', self.child_ids[rec].child_ids)
+            sub_dict = task_template_dict
+            print(task_template_dict)
+            while (flag):
+                flag = False
+                task_template_dict = sub_dict
+                sub_dict = {}
+                for rec in range(len(list(task_template_dict.keys()))):
+                    print(list(task_template_dict.keys()))
+                    print(task_template_dict[list(task_template_dict.keys())[rec]])
+                    child_templates = [Command.create({'name': task.name,
+                                                       'user_ids': [Command.link(user.id) for user in task.user_ids],
+                                                       'partner_id': task.partner_id.id,
+                                                       'project_id': project.id,
+                                                       'date_deadline': task.date_deadline,
+                                                       'priority': task.priority,
+                                                       'description': task.description, })
+                                       for task in task_template_dict[list(task_template_dict.keys())[rec]]]
+                    list(task_template_dict.keys())[rec].update({'child_ids': child_templates})
+                    for i in task_template_dict[list(task_template_dict.keys())[rec]]:
+                        if i.child_ids:
+                            flag = True
+                            task = list(task_template_dict.keys())[rec].child_ids.filtered(
+                                lambda task: task.name == i.name)
+                            sub_dict.update({task: i.child_ids})
+        else:
+            self.env['project.task'].sudo().create({
+                'task_template_id': self.id,
+                'name': self.name,
+                'user_ids': [Command.link(user.id) for user in self.user_ids],
+                'partner_id': self.partner_id.id,
+                'date_deadline': self.date_deadline,
+                'priority': self.priority,
+                'description': self.description,
+            })
         return {
             'type': 'ir.actions.act_window',
             'view_mode': 'form',
