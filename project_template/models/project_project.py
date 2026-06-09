@@ -8,6 +8,7 @@ class ProjectTemplate(models.Model):
 
 
     def action_create_project_template(self):
+        """button action to create project template"""
         tasks = [Command.create({"name": i.name,
                          'user_ids': [Command.link(user.id) for user in
                                       i.user_ids],
@@ -34,73 +35,34 @@ class ProjectTemplate(models.Model):
             'task_ids': tasks,
         })
 
-        def create_child_tasks(self, child_tasks,task_template_dict):
-            print(self)
-            print(child_tasks)
-            print(task_template_dict)
-
-
+        def create_child_tasks(self,task_template_dict):
+            """Function to create child tasks"""
+            task_template_dict_2 = task_template_dict
+            task_template_dict = {}
+            for rec in list(task_template_dict_2.keys()):
+                child = [Command.create({'name' : task.name,
+                                             'user_ids': [Command.link(user.id) for user in task.user_ids],
+                                             'partner_id': task.partner_id.id,
+                                             'project_template_id': project_template.id,
+                                             'date_deadline': task.date_deadline,
+                                             'priority': task.priority,
+                                             'description': task.description,}) for task in task_template_dict_2[rec]]
+                rec.update({'child_ids': child })
+                for i in range(len(task_template_dict_2[rec])):
+                    if task_template_dict_2[rec][i].child_ids:
+                        task_template_dict.update({rec.child_ids[i]: task_template_dict_2[rec][i].child_ids})
+            if task_template_dict:
+                create_child_tasks(self, task_template_dict)
 
         if self.task_ids:
-            child_tasks = [1]
-            print(project_template.task_ids)
             task_template_dict = {}
-            print(self.task_ids)
             task_no_parent = self.task_ids.filtered(lambda task: not task.parent_id)
             for rec in range(len(task_no_parent)):
-                print(self.task_ids[rec].child_ids)
-                if self.task_ids[rec].child_ids:
-                    print(rec)
-                    print(self.task_ids[rec].child_ids)
-                    task_template_dict.update({project_template.task_ids[rec] : self.task_ids[rec].child_ids})
-            if child_tasks:
-                create_child_tasks(self, child_tasks, task_template_dict)
+                if task_no_parent[rec].child_ids:
+                    task_template_dict.update({project_template.task_ids[rec] : task_no_parent[rec].child_ids})
+            if task_template_dict:
+                create_child_tasks(self, task_template_dict)
 
-
-        # if self.task_ids:
-        #     tasks_no_parent = self.task_ids.filtered(lambda task: not task.parent_id)
-        #     task_template_dict = {}
-        #     flag = False
-        #     for i in tasks_no_parent:
-        #         child_ids = [Command.create({'name' : task.name,
-        #                                      'user_ids': [Command.link(user.id) for user in task.user_ids],
-        #                                      'partner_id': task.partner_id.id,
-        #                                      'project_template_id': project_template.id,
-        #                                      'date_deadline': task.date_deadline,
-        #                                      'priority': task.priority,
-        #                                      'description': task.description,}) for task in i.child_ids]
-        #         task_template = self.env['task.template'].create({"name": i.name,
-        #                                           'user_ids': [Command.link(user.id) for user in i.user_ids],
-        #                                           'partner_id': i.partner_id.id,
-        #                                           'project_template_id': project_template.id,
-        #                                           'date_deadline': i.date_deadline,
-        #                                           'priority': i.priority,
-        #                                           'description': i.description,
-        #                                           'child_ids': child_ids})
-        #         for child in range(len(i.child_ids)):
-        #             if i.child_ids[child].child_ids:
-        #                 task_template_dict.update({task_template.child_ids[child] : i.child_ids[child].child_ids})
-        #                 flag = True
-        #     sub_dict = task_template_dict
-        #     while (flag):
-        #         flag = False
-        #         task_template_dict = sub_dict
-        #         sub_dict = {}
-        #         for rec in range(len(list(task_template_dict.keys()))):
-        #                 child_templates = [Command.create({'name': task.name,
-        #                                            'user_ids': [Command.link(user.id) for user in task.user_ids],
-        #                                            'partner_id': task.partner_id.id,
-        #                                            'project_template_id': project_template.id,
-        #                                            'date_deadline': task.date_deadline,
-        #                                            'priority': task.priority,
-        #                                            'description': task.description, })
-        #                            for task in task_template_dict[list(task_template_dict.keys())[rec]]]
-        #                 list(task_template_dict.keys())[rec].update({'child_ids': child_templates})
-        #                 for i in task_template_dict[list(task_template_dict.keys())[rec]]:
-        #                     if i.child_ids:
-        #                         flag = True
-        #                         task = list(task_template_dict.keys())[rec].child_ids.filtered(lambda task: task.name == i.name)
-        #                         sub_dict.update({task : i.child_ids})
         return {
             'type': 'ir.actions.act_window',
             'view_mode': 'form',

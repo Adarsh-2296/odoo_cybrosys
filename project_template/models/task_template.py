@@ -25,37 +25,34 @@ class ProjectTemplate(models.Model):
     child_ids = fields.One2many('task.template', 'parent_id', string="Sub-tasks")
 
     def action_create_task(self):
+        """Button action to create new task"""
         task_template_dict = {}
         if self.project_template_id:
-            project = self.env['project.project'].create({'name':self.project_template_id.name})
-            task = self.env['project.task'].sudo().create({
-                'task_template_id': self.id,
+            project_template = self.env['project.project'].create({'name': self.project_template_id.name,})
+            task_template = self.env['project.task'].create({
                 'name': self.name,
                 'user_ids': [Command.link(user.id) for user in self.user_ids],
-                'project_id': project.id,
                 'partner_id': self.partner_id.id,
+                'project_id': project_template.id,
                 'date_deadline': self.date_deadline,
                 'priority': self.priority,
                 'description': self.description,
             })
             if self.child_ids:
                 child_ids = [Command.create({'name': task.name,
-                                             'user_ids': [Command.link(user.id) for user in task.user_ids],
-                                             'partner_id': task.partner_id.id,
-                                             'date_deadline': task.date_deadline,
-                                             'project_id': project.id,
-                                             'priority': task.priority,
-                                             'description': task.description, }) for task in self.child_ids]
-                task.update({'child_ids': child_ids})
+                                         'user_ids': [Command.link(user.id) for user in task.user_ids],
+                                         'partner_id': task.partner_id.id,
+                                         'date_deadline': task.date_deadline,
+                                         'project_id': project_template.id,
+                                         'priority': task.priority,
+                                         'description': task.description, }) for task in self.child_ids]
+                task_template.update({'child_ids': child_ids})
                 for rec in range(len(self.child_ids)):
                     if self.child_ids[rec].child_ids:
-                        flag = True
-                        task_template_dict.update({task.child_ids[rec]: self.child_ids[rec].child_ids})
+                        task_template_dict.update({task_template.child_ids[rec] : self.child_ids[rec].child_ids})
                         print('child', self.child_ids[rec].child_ids)
-            sub_dict = task_template_dict
-            print(task_template_dict)
-            while (flag):
-                flag = False
+            def create_child_tasks(self, sub_dict):
+                """Function to create child tasks"""
                 task_template_dict = sub_dict
                 sub_dict = {}
                 for rec in range(len(list(task_template_dict.keys()))):
@@ -64,7 +61,7 @@ class ProjectTemplate(models.Model):
                     child_templates = [Command.create({'name': task.name,
                                                        'user_ids': [Command.link(user.id) for user in task.user_ids],
                                                        'partner_id': task.partner_id.id,
-                                                       'project_id': project.id,
+                                                       'project_id': project_template.id,
                                                        'date_deadline': task.date_deadline,
                                                        'priority': task.priority,
                                                        'description': task.description, })
@@ -72,13 +69,16 @@ class ProjectTemplate(models.Model):
                     list(task_template_dict.keys())[rec].update({'child_ids': child_templates})
                     for i in task_template_dict[list(task_template_dict.keys())[rec]]:
                         if i.child_ids:
-                            flag = True
                             task = list(task_template_dict.keys())[rec].child_ids.filtered(
                                 lambda task: task.name == i.name)
                             sub_dict.update({task: i.child_ids})
+                if sub_dict:
+                    create_child_tasks(self, sub_dict)
+            if task_template_dict:
+                sub_dict = task_template_dict
+                create_child_tasks(self, sub_dict)
         else:
-            self.env['project.task'].sudo().create({
-                'task_template_id': self.id,
+            self.env['task.template'].create({
                 'name': self.name,
                 'user_ids': [Command.link(user.id) for user in self.user_ids],
                 'partner_id': self.partner_id.id,
@@ -86,11 +86,14 @@ class ProjectTemplate(models.Model):
                 'priority': self.priority,
                 'description': self.description,
             })
+        print(task_template_dict)
+
+
         return {
             'type': 'ir.actions.act_window',
             'view_mode': 'form',
             'res_model': 'project.task',
-            'res_id': task.id,
+            'res_id': task_template.id,
         }
 
     @api.depends('task_ids')
