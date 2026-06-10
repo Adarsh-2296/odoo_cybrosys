@@ -10,7 +10,6 @@
     'sequence':-10,
     'installable': True,
     'application': True,
-    'auto_install': True,
     'depends': ['account','stock','sale'],
     'data': [
         'views/account_move.xml',
