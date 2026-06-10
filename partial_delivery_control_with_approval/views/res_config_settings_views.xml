@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="partial_payment_control_view_settings" model="ir.ui.view">
+        <field name="name">partial.payment.config.view.form.inherit</field>
+        <field name="model">res.config.settings</field>
+        <field name="inherit_id" ref="purchase.res_config_settings_view_form_purchase"/>
+        <field name="arch" type="xml">
+            <xpath expr="//block[@name='purchase_setting_container']" position="inside">
+                <group>
+                    <setting id="set_purchase_oder_line_limit" help="Set limit for purchase order lines count" >
+                        <field name="payment_control_users"/>
+                    </setting>
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>
