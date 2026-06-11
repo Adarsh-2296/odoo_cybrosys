@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="partial_payment_control_view_form_product_product" model="ir.ui.view">
+        <field name="name">partial.payment.product.product.view.form.inherit</field>
+        <field name="model">product.product</field>
+        <field name="inherit_id" ref="product.product_normal_form_view"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='categ_id']" position="after">
+                    <field name="is_allow_partial_delivery"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

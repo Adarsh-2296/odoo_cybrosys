@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="partial_payment_control_view_form_product_product" model="ir.ui.view">
+        <field name="name">stock.picking.button.approve.view.form.inherit</field>
+        <field name="model">stock.picking</field>
+        <field name="inherit_id" ref="stock.view_picking_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//header" position="inside">
+                <button string="Approve" name="action_approve_delivery" type="object" invisible="not current_user_allowed" class="btn btn-primary"/>
+                <button string="Request" name="button_request_approve" type="object" invisible="current_user_allowed == True" class="btn btn-primary"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>
